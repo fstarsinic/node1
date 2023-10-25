@@ -1,2 +1,11 @@
-/public/vendor
-/node_modules
+public/vendor/**/*.zip
+public/vendor/jquery*.*
+public/vendor/Highcharts-11.1.0/**/*.*
+public/vendor/jquery*.*
+vendor/**/*.*
+node_modules/**/*
+node_modules/**/LICENSE
+node_modules/**/README
+node_modules/**/Makefile
+node_modules/*.*
+
