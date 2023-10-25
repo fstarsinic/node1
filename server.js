@@ -10,6 +10,7 @@ console.log(path.join(__dirname, 'public', 'index.html'))
 console.log('doing something else')
 
 app.use(express.static('public'));
+app.use('/node_modules', express.static('node_modules'));
 
 
 app.get('/hichart', (req, res) => {
