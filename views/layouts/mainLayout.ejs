@@ -1,0 +1,19 @@
+<!-- views/layouts/mainLayout.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/sbadmin/css/sb-admin.css"> <!-- SB Admin CSS -->
+</head>
+<body>
+  <%- include('partials/header') %>
+  <div id="wrapper">
+    <%- include('partials/sidebar') %>
+    <div id="content">
+      <!-- Content specific to each page will go here -->
+      <%- body %>
+    </div>
+  </div>
+</body>
+</html>
+

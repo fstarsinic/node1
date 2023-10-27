@@ -1,0 +1,23 @@
+@startuml
+actor       User       as User
+participant Server as Webserver
+participant Endpoint as Endpoint
+participant API_Endpoint as Endpoint2
+database    Database    as DB
+
+User -> Webserver : Web Request
+Webserver -> Webserver: Lookup Endpoint
+Webserver -> Endpoint: Execute 
+Endpoint -> Endpoint: Create HTML/JS
+Endpoint -> Webserver: HTML/JS
+Webserver -> User: HTML/JS
+User -> Webserver: Ajax Call from JS
+Webserver -> Webserver: Lookup Endpoint2
+Webserver -> Endpoint2: Execute 
+Endpoint2 -> DB: Query DB
+DB -> Endpoint2: ResultSet
+Endpoint2 -> Endpoint2: Create JSON
+Endpoint2 -> Webserver: JSON
+Webserver -> User: JSON
+User -> User: Render HTML / JS / JSON Data
+@enduml
