@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:717274493552:task-definition/bcbTaskDef:9",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:717274493552:task-definition/bcbTaskDef2:2",
     "containerDefinitions": [
         {
-            "name": "bcbContainer",
-            "image": "717274493552.dkr.ecr.us-east-2.amazonaws.com/bcbrepository:1a1104d306877a64cbdb30d4eebfa30832c7b6e1",
+            "name": "bcbcontainer2",
+            "image": "717274493552.dkr.ecr.us-east-2.amazonaws.com/bcbrepository2",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "bcbcontainer-3000-tcp",
+                    "name": "bcbcontainer2-80-tcp",
                     "containerPort": 3000,
                     "hostPort": 3000,
                     "protocol": "tcp",
@@ -17,18 +17,36 @@
             "essential": true,
             "environment": [],
             "mountPoints": [],
-            "volumesFrom": []
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/bcbTaskDef2",
+                    "awslogs-region": "us-east-2",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
         }
     ],
-    "family": "bcbTaskDef",
+    "family": "bcbTaskDef2",
     "executionRoleArn": "arn:aws:iam::717274493552:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 9,
+    "revision": 2,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
         {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
             "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
         },
         {
             "name": "ecs.capability.execution-role-ecr-pull"
@@ -38,6 +56,9 @@
         },
         {
             "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
         }
     ],
     "placementConstraints": [],
@@ -46,6 +67,7 @@
         "FARGATE"
     ],
     "requiresCompatibilities": [
+        "EC2",
         "FARGATE"
     ],
     "cpu": "1024",
@@ -54,7 +76,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2023-11-01T18:15:39.072Z",
-    "registeredBy": "arn:aws:iam::717274493552:user/bcbclouduser",
+    "registeredAt": "2023-11-01T18:35:00.123Z",
+    "registeredBy": "arn:aws:iam::717274493552:root",
     "tags": []
 }
