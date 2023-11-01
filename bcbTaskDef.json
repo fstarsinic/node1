@@ -1,14 +1,21 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:717274493552:task-definition/bcbTaskDef:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:717274493552:task-definition/bcbTaskDef:7",
     "containerDefinitions": [
         {
             "name": "bcbContainer",
-            "image": "717274493552.dkr.ecr.us-east-2.amazonaws.com/backyardclassics:v1.0",
+            "image": "717274493552.dkr.ecr.us-east-2.amazonaws.com/backyardclassics:de1ac22df24058041ba55e7382edf0e9039d279e",
             "cpu": 0,
-            "portMappings": [],
+            "portMappings": [
+                {
+                    "name": "bcbcontainer-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
             "essential": true,
             "environment": [],
-            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": []
         }
@@ -16,7 +23,7 @@
     "family": "bcbTaskDef",
     "executionRoleArn": "arn:aws:iam::717274493552:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
+    "revision": 7,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -47,7 +54,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2023-10-27T18:25:08.570Z",
+    "registeredAt": "2023-11-01T17:31:42.769Z",
     "registeredBy": "arn:aws:iam::717274493552:root",
     "tags": []
 }

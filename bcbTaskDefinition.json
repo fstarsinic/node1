@@ -1,0 +1,48 @@
+{
+    "family": "bcbTaskDefinition",
+    "containerDefinitions": [
+        {
+            "name": "bcbcontainer2",
+            "image": "717274493552.dkr.ecr.us-east-2.amazonaws.com/bcbrepository",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "bcbcontainer2-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/bcbTaskDefinition",
+                    "awslogs-region": "us-east-2",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            }
+        }
+    ],
+    "taskRoleArn": "arn:aws:iam::717274493552:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::717274493552:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
+}
