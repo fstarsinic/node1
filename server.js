@@ -3,7 +3,7 @@ const db = require('./modules/db')
 const DataTable = require('datatables');
 const app = express();
 const path = require('path');
-const port = 3000;
+const port = process.env.port || 80;
 
 console.log('doing something')
 console.log(path.join(__dirname, 'public', 'index.html'))
@@ -137,7 +137,7 @@ app.get('/api/summary', (req, res) => {
   
 
 // Define an endpoint that displays "Hello World"
-app.get('/hello', (req, res) => {
+app.get('/', (req, res) => {
     console.log('Testing hello world...')
     res.send('Hello World');
   });
