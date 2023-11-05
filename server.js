@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./modules/db')
+const bus = require('./modules/bus')
 const DataTable = require('datatables');
 const app = express();
 const path = require('path');
@@ -32,6 +33,13 @@ app.get('/dashboard', (req, res) => {
     });
   });
   
+  app.get('/player', (req, res) => {
+    console.log('/player page')
+    res.render('player', { pageTitle: 'Player',
+        body: 'This is the main content of the Individual Player page.', 
+    });
+  });
+  
 
   app.get('/hichart', (req, res) => {
     console.log('Server got index request')
@@ -51,6 +59,20 @@ app.get('/api/players', (req, res) => {
             res.json(rows);
           });      
   });
+
+// Define a route to fetch data from the database
+app.get('/api/teamgames', (req, res) => {
+  console.log('/api/teamgames endpoint')
+  const numValue = req.query.num ? req.query.num : 7;
+  console.log(`num ${numValue}`)
+      bus.get_team_game_data(numValue, (err, rows) => {
+          if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+          }
+          res.json(rows);
+        });      
+});
 
 
 // Define a route to fetch data from the database
