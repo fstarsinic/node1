@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<link href="/css/packed_bubble.css" rel="stylesheet" type=="text/css">
 <%- include('partials/sidebar') %>
         
 
@@ -219,42 +220,14 @@
                     <h1 class="h3 mb-4 text-gray-800">Backyard Classics</h1>
                     <table id="no_data_container" class="display" style="width:100%"></table>
                     
-                    <table id="data_container" class="display" cellspacing="0" width="100%">
-                        <thead>
-                           <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Team</th>
-                            <th>Points</th>
-                            <th>Rebounds</th>
-                            <th>Assists</th>
-                            <th>Steals</th>
-                            <th>Blocks</th>
-                            <th>Turnovers</th>
-                            <th>FieldGoalPct</th>
-                            <th>ThreePointPercent</th>
-                            <th>FTPercent</th>
-                           </tr>
-                        </thead>
-                        <tfoot>
-                           <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Team</th>
-                            <th>Points</th>
-                            <th>Rebounds</th>
-                            <th>Assists</th>
-                            <th>Steals</th>
-                            <th>Blocks</th>
-                            <th>Turnovers</th>
-                            <th>FieldGoalPct</th>
-                            <th>ThreePointPercent</th>
-                            <th>FTPercent</th>
-                          </tr>
-                        </tfoot>
-                     </table>
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>
+                        <p class="highcharts-description">
+                            Team data - Points per game by player.
+                        </p>
+                    </figure>
 
-                    <script src="js/test_datatable.js"></script>
+                    <script src="js/player_packed_bubble.js"></script>
                 
                 </div>
                 <!-- /.container-fluid -->
