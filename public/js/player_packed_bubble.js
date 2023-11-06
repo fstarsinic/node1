@@ -58,6 +58,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 },
+                legend: {
+                    enabled: true,
+                    layout: 'horizontal', // Set legend layout to horizontal
+                    align: 'center',      // Center the legend horizontally
+                    verticalAlign: 'top'  // Position the legend at the top
+                },
                 series: data
             });
         });
