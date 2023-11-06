@@ -218,6 +218,31 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Backyard Classics</h1>
+                    <p>Current Team: <span id="currentTeamPlaceholder"></span></p>
+
+                 
+                    <!-- Links to increment and decrement the "team" query string parameter -->
+                    |||
+                    <a href="javascript:void(0);" onclick="updateQueryStringValue(-1)">Previous Team</a>
+                    <nbsp></nbsp>|<nbsp></nbsp> 
+                    <a href="javascript:void(0);" onclick="updateQueryStringValue(1)">Next Team</a>
+                    |||
+                    <!-- JavaScript code to get the current "team" value from the query string -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const queryParams = new URLSearchParams(window.location.search);
+                            const currentTeam = queryParams.get('team') || '1';
+                            document.getElementById('currentTeamPlaceholder').textContent = currentTeam;
+
+                            window.updateQueryStringValue = function (change) {
+                                const newTeam = parseInt(currentTeam) + change;
+                                const url = new URL(window.location.href);
+                                url.searchParams.set('team', newTeam);
+                                window.location.href = url.toString();
+                            };
+                        });
+                    </script>               
+                    
                     <table id="no_data_container" class="display" style="width:100%"></table>
                     
                     <figure class="highcharts-figure">
