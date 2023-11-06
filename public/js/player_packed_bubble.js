@@ -6,18 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
         num = parseInt(queryParams.get('team'));
         console.log(`num is ${num}`)
     } else{
-        num = 0;
+        num = 1;
     }
     console.log(`result: num is ${num}`)
   
       // Fetch data from server
       fetch(`/api/teamgames?num=${num}`)
         .then((response) => response.json())
-        .then((data) => {
-          // Extract player names and points from data
-          //const players = data.map((item) => item.Player);
-          //const points = data.map((item) => item.Points);
-    
+        .then((data) => {    
             // Create the Highcharts hbar chart
             Highcharts.chart('container', {
                 chart: {
@@ -34,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 plotOptions: {
                     packedbubble: {
-                        minSize: '20%',
+                        minSize: '40%',
                         maxSize: '100%',
                         zMin: 0,
                         zMax: 1000,
@@ -56,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             style: {
                                 color: 'black',
                                 textOutline: 'none',
-                                fontWeight: 'normal'
+                                fontWeight: 'normal',
+                                fontSize: '12px'
                             }
                         }
                     }
