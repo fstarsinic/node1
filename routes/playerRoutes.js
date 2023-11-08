@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const playerController = require('../controllers/playerController');
 
-console.log('Setting up Routes')
+console.log('Setting up Player Routes')
 
 // Define routes and their corresponding controller functions
 router.get('/', playerController.getAllPlayers);
