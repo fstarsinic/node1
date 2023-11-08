@@ -8,4 +8,5 @@ node_modules/**/LICENSE
 node_modules/**/README
 node_modules/**/Makefile
 node_modules/*.*
+swagger-server/**/*
 

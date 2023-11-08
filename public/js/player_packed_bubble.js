@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch(`/api/teamgames?num=${num}`)
         .then((response) => response.json())
         .then((data) => {    
+            const series = data.series
+            const team_name = data.team_name
             // Create the Highcharts hbar chart
             Highcharts.chart('container', {
                 chart: {
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     height: '100%'
                 },
                 title: {
-                    text: `Team Data`,
+                    text: `Team Data for ${team_name}`,
                     align: 'left'
                 },
                 tooltip: {
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     align: 'center',      // Center the legend horizontally
                     verticalAlign: 'top'  // Position the legend at the top
                 },
-                series: data
+                series: series
             });
         });
     });
