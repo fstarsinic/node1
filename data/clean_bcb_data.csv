@@ -1,4 +1,4 @@
-﻿GameId,Team,Opponent,Player,Game,Points,ORebounds,DRebounds,Assists,Steals,Blocks,Turnovers,2PointAttempted,2PointMade,3PointAttempted,3PointMade,FTAttempted,FTMade
+﻿game_id,Team,Opponent,Player,Game,Points,ORebounds,DRebounds,Assists,Steals,Blocks,Turnovers,2PointAttempted,2PointMade,3PointAttempted,3PointMade,FTAttempted,FTMade
 1,Mercenaries,Fowl,Bradley Kishaba,Game 1,4,4,11,1,1,0,1,9,2,1,0,0,0
 1,Mercenaries,Fowl,Jake Taylor,Game 1,11,2,7,3,0,5,2,16,5,5,0,2,1
 1,Mercenaries,Fowl,Max Gasser,Game 1,7,0,6,1,3,0,1,9,2,10,1,1,0
