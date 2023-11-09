@@ -1,5 +1,5 @@
 // playerController.js
-const bus = require('../modules/bus')
+const bus = require('../modules/bus/busPlayer')
 
 /**
  * @swagger

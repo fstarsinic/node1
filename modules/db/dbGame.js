@@ -1,39 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
 
+// Define all exports at the end of the module
+const exportsObj = {};
+
 // Open the SQLite database
 const db = new sqlite3.Database('mydatabase.db');
 
 // Function to fetch data from the database based on the query parameter
-function get_top_ppg(num, callback) {
-  console.log('db.get_top_ppg()')
-  const query = `SELECT Player, avg(Points) FROM game_data group by Player order by avg(Points) desc limit ${num}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
-
-
-
-// Function to fetch data from the database based on the query parameter
-function get_top_turnovers(num, callback) {
-  console.log('db.get_top_turnovers()')
-  const query = `SELECT Player, avg(Turnovers) FROM game_data  group by Player order by avg(Turnovers) desc limit ${num}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
-
-
-// Function to fetch data from the database based on the query parameter
-function get_games(callback) {
+exportsObj.get_games = function(callback) {
   console.log('db.get_games()')
   const query = `SELECT game_id, team, opponent from game`;
   db.all(query, (err, rows) => {
@@ -46,7 +20,7 @@ function get_games(callback) {
 }
 
 // Function to fetch data from the database based on the query parameter
-function get_game_by_id(gameid, callback) {
+exportsObj.get_game_by_id = function(gameid, callback) {
   console.log('db.get_games()')
   const query = `SELECT game_id, team, opponent from game where game_id = ${gameid}`;
   db.all(query, (err, rows) => {
@@ -58,60 +32,23 @@ function get_game_by_id(gameid, callback) {
   });
 }
 
-// Function to fetch data from the database based on the query parameter
-function get_teams(callback) {
-  console.log('db.get_teams()')
-  const query = `SELECT team_id, team_name from team`;
+
+exportsObj.get_game_by_team_name = function(teamName, callback) {
+  console.log('db.get_game_by_team_name()')
+  const query = `SELECT * from game where team = ${teamName} or opponent = '${teamName}'`;
   db.all(query, (err, rows) => {
     if (err) {
       callback(err, null);
     } else {
+      console.log(rows)
       callback(null, rows);
     }
   });
 }
 
-// Function to fetch data from the database based on the query parameter
-function get_team_by_id(teamid, callback) {
-  console.log('db.get_teams()')
-  const query = `SELECT team_id, team_name from team where team_id = ${teamid}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
 
 // Function to fetch data from the database based on the query parameter
-function get_players(callback) {
-  console.log('db.get_players()')
-  const query = `SELECT * from player`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
-
-// Function to fetch data from the database based on the query parameter
-function get_player_by_id(id, callback) {
-  console.log('db.get_player_by_id()')
-  const query = `SELECT * from player where id = ${id}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
-
-// Function to fetch data from the database based on the query parameter
-function get_top_rebounds(num, callback) {
+exportsObj.get_top_rebounds = function(num, callback) {
     console.log('db.get_top_rebounds()')
     const query = `SELECT Player, avg(Rebounds) FROM game_data  group by Player order by avg(Rebounds) desc limit ${num}`;
     db.all(query, (err, rows) => {
@@ -124,7 +61,7 @@ function get_top_rebounds(num, callback) {
   }
   
  // Function to fetch data from the database based on the query parameter
- function get_top_multi(num, callback) {
+ exportsObj.get_top_multi = function(num, callback) {
   console.log('db.get_top_multi()')
   const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player limit ${num}`;
   db.all(query, (err, rows) => {
@@ -139,7 +76,7 @@ function get_top_rebounds(num, callback) {
 }
 
  // Function to fetch data from the database based on the query parameter
- function get_multi(callback) {
+ exportsObj.get_multi = function(callback) {
   console.log('db.get_multi()')
   const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player`;
   db.all(query, (err, rows) => {
@@ -154,7 +91,7 @@ function get_top_rebounds(num, callback) {
 }
 
  // Function to fetch data from the database based on the query parameter
- function get_player_data(callback) {
+ exportsObj.get_player_data = function(callback) {
   console.log('db.get_player_data()')
   const query = `SELECT p.firstname, p.lastname, t.team_name, t.team_id, avg(points), avg(g.ORebounds+g.DRebounds) as Rebounds,avg(g.Assists),avg(g.Steals),avg(g.Blocks),avg(g.Turnovers),
   round(sum(g.TwoPointMade) *100 / sum(g.TwoPointattempted),2) as FieldGoalPct,
@@ -181,7 +118,7 @@ function get_top_rebounds(num, callback) {
 }
 
  // Function to fetch data from the database based on the query parameter
- function get_team_game_data(num, callback) {
+ exportsObj.get_team_game_data = function(num, callback) {
   console.log('db.get_team_game_data()')
   const query = `select Team, Player, Game, Opponent, Points, player_id,team_id from game_data where team_id = ${num} order by player, game;`;
   console.log(query)
@@ -196,7 +133,7 @@ function get_top_rebounds(num, callback) {
 }
 
  // Function to fetch data from the database based on the query parameter
- function get_games_by_team(num, callback) {
+ exportsObj.get_games_by_team = function(num, callback) {
   console.log('db.get_team_game_data()')
   const query = `select distinct game_id from game_data where team_id = ${num}`;
   console.log(query)
@@ -212,7 +149,7 @@ function get_top_rebounds(num, callback) {
 
 
 // Function to fetch data from the database based on the query parameter
- function get_game_results(team1, team2, game, callback) {
+ exportsObj.get_game_results = function(team1, team2, game, callback) {
   console.log(`db.get_game_results(${team1}, ${team2}, ${game})`)
   const query = `SELECT
   game_id,
@@ -245,11 +182,5 @@ GROUP BY game_id`;
   });
 }
 
-module.exports = {get_teams, get_game_results, get_top_ppg, get_games_by_team, 
-                  get_top_turnovers, get_top_rebounds, get_top_multi, 
-                  get_multi, get_player_data, get_team_game_data, 
-                  get_team_by_id,
-                  get_players, get_player_by_id,
-                  get_games, get_game_by_id
-
-};
+// At the bottom of the module, export the entire object
+module.exports = exportsObj;

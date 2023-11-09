@@ -12,4 +12,3 @@ router.get('/:id', playerController.getPlayerById);
 
 // Export the router
 module.exports = router;
-

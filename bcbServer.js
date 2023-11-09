@@ -6,11 +6,11 @@ const app = express();
 const playerRoutes = require('./routes/playerRoutes');
 app.use('/api/player', playerRoutes);
 
-const gameRoutes = require('./routes/gameRoutes');
-app.use('/api/game', gameRoutes);
-
 const teamRoutes = require('./routes/teamRoutes');
 app.use('/api/team', teamRoutes);
+
+const gameRoutes = require('./routes/gameRoutes');
+app.use('/api/game', gameRoutes);
 
 
 // Middleware and other configurations
@@ -37,7 +37,7 @@ app.set('view engine', 'ejs');
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'Healthy' });
   });
-  
+
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
     console.log('Testing...')

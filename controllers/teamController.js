@@ -1,5 +1,5 @@
 // teamController.js
-const bus = require('../modules/bus')
+const bus = require('../modules/bus/busTeam')
 
 /**
  * @swagger
