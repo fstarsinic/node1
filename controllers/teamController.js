@@ -21,12 +21,17 @@ exports.getAllteams = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/team endpoint')
       bus.get_teams((err, rows) => {
-          if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-          }
-          res.json(rows);
-        });      
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found.`});
+          return;
+        }    
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.json(rows);
+      });      
+
 };
 
 /**
@@ -63,14 +68,64 @@ exports.getteamById = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamid = req.params.id;
   console.log(`/api/team/:${teamid} endpoint`)
-  
     console.log(`num ${teamid}`)
       bus.get_team_by_id(teamid, (err, rows) => {
-          if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-          }
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found for ${teamid}`});
+          return;
+        }
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
           res.json(rows);
         });      
 };
 
+/**
+ * @swagger
+ * /api/game/{teamName}:
+ *  get:
+ *   summary: Get a team by team name
+ *   description: Retrieve a team's information by their team name.
+ *  parameters:
+ *    - in: path
+ *      name: teamName
+ *      description: The name of the team to retrieve.
+ *      required: true
+ *      schema:
+ *      type: string
+ * responses:
+ * '200':
+ *    description: Successfully retrieved game information.
+ *    content:
+ *      application/json:
+ *        schema:
+ *          type: object
+ *            properties:
+ *              id:
+ *                type: integer
+ *                description: The ID of the game.
+ *              name:
+ *                type: string
+ *                description: The name of the game.
+ * '404':
+ *    description: game not found.
+ * 
+ */
+exports.getTeamByTeamName = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamName = req.params.teamName;
+  console.log(`/api/game/:${teamName} endpoint`)
+  bus.get_team_by_team_name(teamName, (err, rows) => {
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found for ${teamName}`});
+      return;
+    }
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(rows);
+    });      
+};

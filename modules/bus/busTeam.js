@@ -22,6 +22,20 @@ exportsObj.get_teams = function(callback) {
         }
       });
   }
+
+exportsObj.get_team_by_name = function(teamName, callback) {
+  console.log(`bus.get_team_by_name(${teamName})`)
+  dbTeam.get_team_by_name(teamName, (err, rows) => {
+    if(err) {
+      console.log(`error: ${err}`)
+      callback(err, null);
+    }else {
+      console.log('Success getting bus data');
+      callback(null, rows);
+    }
+  });
+}
+
   
 
 // Function to fetch data from the database based on the query parameter

@@ -21,12 +21,16 @@ exports.getAllPlayers = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/player endpoint')
       bus.get_players((err, rows) => {
-          if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-          }
-          res.json(rows);
-        });      
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found.`});
+          return;
+        }    
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.json(rows);
+      });      
 };
 
 /**
@@ -66,11 +70,15 @@ exports.getPlayerById = (req, res) => {
   
     console.log(`num ${playerid}`)
       bus.get_player_by_id(playerid, (err, rows) => {
-          if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-          }
-          res.json(rows);
-        });      
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found for ${playerid}`});
+          return;
+        }
+        if (err) {
+          res.status(500).json({ error: err.message });
+        return;
+        }
+        res.json(rows);
+  });      
 };
 

@@ -10,6 +10,7 @@ router.get('/', teamController.getAllteams);
 // In teamRoutes.js
 router.get('/:id', teamController.getteamById);
 
+
 // Export the router
 module.exports = router;
 

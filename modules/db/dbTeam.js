@@ -32,18 +32,6 @@ exportsObj.get_team_by_id = function(teamid, callback) {
   });
 }
 
-exportsObj.get_game_by_team_name = function(teamName, callback) {
-  console.log('db.get_game_by_team_name()')
-  const query = `SELECT * from game where team = ${teamName} or opponent = '${teamName}'`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      console.log(rows)
-      callback(null, rows);
-    }
-  });
-}
 
 
  // Function to fetch data from the database based on the query parameter

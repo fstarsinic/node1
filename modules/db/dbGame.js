@@ -33,9 +33,9 @@ exportsObj.get_game_by_id = function(gameid, callback) {
 }
 
 
-exportsObj.get_game_by_team_name = function(teamName, callback) {
+exportsObj.get_games_by_team_name = function(teamName, callback) {
   console.log('db.get_game_by_team_name()')
-  const query = `SELECT * from game where team = ${teamName} or opponent = '${teamName}'`;
+  const query = `SELECT * from game where team = '${teamName}' or opponent = '${teamName}'`;
   db.all(query, (err, rows) => {
     if (err) {
       callback(err, null);
@@ -121,21 +121,6 @@ exportsObj.get_top_rebounds = function(num, callback) {
  exportsObj.get_team_game_data = function(num, callback) {
   console.log('db.get_team_game_data()')
   const query = `select Team, Player, Game, Opponent, Points, player_id,team_id from game_data where team_id = ${num} order by player, game;`;
-  console.log(query)
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      callback(null, rows)
-    }
-  });
-}
-
- // Function to fetch data from the database based on the query parameter
- exportsObj.get_games_by_team = function(num, callback) {
-  console.log('db.get_team_game_data()')
-  const query = `select distinct game_id from game_data where team_id = ${num}`;
   console.log(query)
   db.all(query, (err, rows) => {
     if (err) {
