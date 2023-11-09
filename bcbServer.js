@@ -33,6 +33,11 @@ app.use('/images', express.static('images'));
 app.set('view engine', 'ejs');
 
 
+// Health check route
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'Healthy' });
+  });
+  
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
     console.log('Testing...')
