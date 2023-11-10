@@ -10,5 +10,9 @@ router.get('/', playerController.getAllPlayers);
 // In playerRoutes.js
 router.get('/:id', playerController.getPlayerById);
 
+router.get('/byTeamName/:teamName', playerController.getPlayersByTeamName);
+
+router.get('/byTeamId/:id', playerController.getPlayersByTeamId);
+
 // Export the router
 module.exports = router;

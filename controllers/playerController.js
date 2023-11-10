@@ -82,3 +82,40 @@ exports.getPlayerById = (req, res) => {
   });      
 };
 
+exports.getPlayersByTeamId = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamid = req.params.id;
+  console.log(`/api/player/:${teamid} endpoint`)
+  
+    console.log(`num ${teamid}`)
+      bus.get_players_by_team_id(teamid, (err, rows) => {
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found for ${teamid}`});
+          return;
+        }
+        if (err) {
+          res.status(500).json({ error: err.message });
+        return;
+        }
+        res.json(rows);
+  });      
+}
+
+exports.getPlayersByTeamName = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamName = req.params.teamName;
+  console.log(`/api/player/:${teamName} endpoint`)
+  
+    console.log(`num ${teamName}`)
+      bus.get_players_by_team_name(teamName, (err, rows) => {
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found for ${teamName}`});
+          return;
+        }
+        if (err) {
+          res.status(500).json({ error: err.message });
+        return;
+        }
+        res.json(rows);
+  });      
+}

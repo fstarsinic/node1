@@ -33,6 +33,29 @@ exportsObj.get_player_by_id = function(id, callback) {
   });
 }
 
+exportsObj.get_players_by_team_name = function(teamName, callback) {
+  console.log('db.get_players_by_team_name()')
+  const query = `select t.team_name, p.* from player p, team t where p.team_id = t.team_id and t.team_name =  '${teamName}'`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, rows);
+    }
+  });
+}
+
+exportsObj.get_players_by_team_id = function(teamId, callback) {
+  console.log('db.get_players_by_team_id()')
+  const query = `select t.team_name, p.* from player p, team t where p.team_id = t.team_id and t.team_id =  ${teamId}`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, rows);
+    }
+  });
+}
 
  // Function to fetch data from the database based on the query parameter
  exportsObj.get_player_data = function(callback) {

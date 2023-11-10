@@ -44,5 +44,32 @@ exportsObj.get_player_by_id = function(num, callback) {
       });
   }
   
+  exportsObj.get_players_by_team_id = function(teamId, callback) {
+    console.log(`bus.get_players_by_team_id(${teamId})`)
+    dbPlayer.get_players_by_team_id(teamId, (err, rows) => {
+      if(err) {
+        console.log(`error: ${err}`)
+        callback(err, null);
+      }else {
+        console.log('Success getting bus data');
+        callback(null, rows);
+      }
+    });
+  }
+
+  
+
+  exportsObj.get_players_by_team_name = function(teamName, callback) {
+    console.log(`bus.get_players_by_team_name(${teamName})`)
+    dbPlayer.get_players_by_team_name(teamName, (err, rows) => {
+      if(err) {
+        console.log(`error: ${err}`)
+        callback(err, null);
+      }else {
+        console.log('Success getting bus data');
+        callback(null, rows);
+      }
+    });
+  };
 
 module.exports = exportsObj;
