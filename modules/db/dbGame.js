@@ -226,7 +226,7 @@ exportsObj.get_top_rebounds = function(num, callback) {
 
 
 // Function to fetch data from the database based on the query parameter
- exportsObj.get_game_results = function(team1, team2, game, callback) {
+ exportsObj.xx_get_game_results = function(team1, team2, game, callback) {
   console.log(`db.get_game_results(${team1}, ${team2}, ${game})`)
   const query = `SELECT
   game_id,
