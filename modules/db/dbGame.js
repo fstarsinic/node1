@@ -22,6 +22,10 @@ exportsObj.get_games = function(callback) {
 // Function to fetch data from the database based on the query parameter
 exportsObj.get_game_by_id = function(gameid, callback) {
   console.log('db.get_games()')
+  if (isNaN(parseInt(gameid))) {
+    callback(new Error('Invalid gameId'), null);
+    return;
+  }
   const query = `SELECT game_id, team, opponent from game where game_id = ${gameid}`;
   db.all(query, (err, rows) => {
     if (err) {
@@ -35,6 +39,10 @@ exportsObj.get_game_by_id = function(gameid, callback) {
 
 exportsObj.get_games_by_team_name = function(teamName, callback) {
   console.log('db.get_game_by_team_name()')
+  if (!/^[a-z0-9]+$/i.test(teamName)) {
+    callback(new Error('Invalid teamName'), null);
+    return;
+  }
   const query = `SELECT * from game where team = '${teamName}' or opponent = '${teamName}'`;
   db.all(query, (err, rows) => {
     if (err) {
@@ -46,6 +54,90 @@ exportsObj.get_games_by_team_name = function(teamName, callback) {
   });
 }
 
+
+exportsObj.get_top_rebounds = function(num, callback) {
+  console.log('db.get_top_rebounds()')
+  if (isNaN(parseInt(num))) {
+    callback(new Error('Invalid num'), null);
+    return;
+  }
+  const query = `SELECT Player, avg(Rebounds) FROM game_data  group by Player order by avg(Rebounds) desc limit ${num}`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, rows);
+    }
+  });
+}
+
+exportsObj.get_top_multi = function(num, callback) {
+  console.log('db.get_top_multi()')
+  if (isNaN(parseInt(num))) {
+    callback(new Error('Invalid num'), null);
+    return;
+  }
+  const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player limit ${num}`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      console.log(`error: ${err}`)
+      callback(err, null);
+    } else {
+      console.log('Success getting data')
+      callback(null, rows);
+    }
+  });
+}
+
+exportsObj.get_multi = function(callback) {
+  console.log('db.get_multi()')
+  const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      console.log(`error: ${err}`)
+      callback(err, null);
+    } else {
+      console.log('Success getting data')
+      callback(null, rows);
+    }
+  });
+}
+
+
+exportsObj.get_game_results = function(gameId, callback) {
+  console.log('db.get_game_results()')
+  if (isNaN(parseInt(gameId))) {
+    callback(new Error('Invalid gameId'), null);
+    return;
+  }
+  const query = `select sum(points), team from game_data where game_id = ${gameId} group by team`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      console.log(rows)
+      callback(null, rows);
+    }
+  });
+}
+
+
+exportsObj.get_game_winner = function(gameId, callback) {
+  console.log('db.get_game_winner()')
+  if (isNaN(parseInt(gameId))) {
+    callback(new Error('Invalid gameId'), null);
+    return;
+  }
+  const query = `select max(pts), team from (select sum(points) as pts, team from game_data where game_id = ${gameId} group by team);`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      console.log(rows)
+      callback(null, rows);
+    }
+  });
+}
 
 // Function to fetch data from the database based on the query parameter
 exportsObj.get_top_rebounds = function(num, callback) {

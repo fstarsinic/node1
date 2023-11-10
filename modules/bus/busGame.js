@@ -57,4 +57,32 @@ exportsObj.get_games_by_team_name = function(teamName, callback) {
   });
 };
 
+exportsObj.get_game_results = function(gameId, callback) {
+  console.log(`bus.get_game_results(${gameId})`)
+  dbGame.get_game_results(gameId, (err, rows) => {
+    if(err) {
+      console.log(`error: ${err}`)
+      callback(err, null);
+    }else {
+      console.log('Success getting bus data');
+      callback(null, rows);
+    }
+  });
+};
+
+
+exportsObj.get_game_winner = function(gameId, callback) {
+  console.log(`bus.get_game_winner(${gameId})`)
+  dbGame.get_game_winner(gameId, (err, rows) => {
+    if(err) {
+      console.log(`error: ${err}`)
+      callback(err, null);
+    }else {
+      console.log('Success getting bus data');
+      callback(null, rows);
+    }
+  });
+}
+
+
 module.exports = exportsObj;

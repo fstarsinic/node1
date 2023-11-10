@@ -97,3 +97,37 @@ exports.getGamesByTeamName = (req, res) => {
     res.json(rows);
     });
 };
+
+exports.getGameWinner = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const gameId = req.params.gameId;
+  console.log(`/api/game/winner/:${gameId} endpoint`)
+  bus.get_game_winner(gameId, (err, rows) => {
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found for ${gameId}`});
+      return;
+    }
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(rows);
+    });
+}
+
+exports.getGameResults = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const gameId = req.params.gameId;
+  console.log(`/api/game/results/:${gameId} endpoint`)
+  bus.get_game_results(gameId, (err, rows) => {
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found for ${gameId}`});
+      return;
+    }
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(rows);
+    });
+}
