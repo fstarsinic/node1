@@ -42,7 +42,7 @@ app.get('/pages/:pageName', (req, res) => {
 
 app.get('/teamx', (req, res) => {
     console.log('/team page')    
-    res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+    //res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
     res.render('team', { pageTitle: 'Team',
         body: 'This is the main content of the  Team page.', 
     });
