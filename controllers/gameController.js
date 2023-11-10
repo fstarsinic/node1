@@ -131,4 +131,4 @@ exports.getGameResults = (req, res) => {
     res.json(rows);
     });
 }
-getGameResults
+
