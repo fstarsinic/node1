@@ -33,6 +33,23 @@ app.use('/images', express.static('images'));
 app.set('view engine', 'ejs');
 
 
+//This is to handle any page with one route, e.g., team, player, game, etc.
+app.get('/pages/:pageName', (req, res) => {
+    const pageName = req.params.pageName;
+    //res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+    res.render(pageName);
+  });
+
+app.get('/teamx', (req, res) => {
+    console.log('/team page')    
+    res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+    res.render('team', { pageTitle: 'Team',
+        body: 'This is the main content of the  Team page.', 
+    });
+  });
+
+
+
 // Health check route
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'Healthy' });
