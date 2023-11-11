@@ -1,4 +1,5 @@
 const dbGame = require('../db/dbGame');
+const dbTeam = require('../db/dbTeam');
 
 const exportsObj = {};
 
@@ -57,6 +58,19 @@ exportsObj.get_games_by_team_name = function(teamName, callback) {
   });
 };
 
+exportsObj.get_games_by_team_id = function(teamId, callback) {
+  console.log(`bus.get_games_by_team_id(${teamId})`)
+  dbGame.get_games_by_team_id(teamId, (err, rows) => {
+    if(err) {
+      console.log(`error: ${err}`)
+      callback(err, null);
+    }else {
+      console.log('Success getting bus data');
+      callback(null, rows);
+    }
+  });
+}
+
 exportsObj.get_game_results = function(gameId, callback) {
   console.log(`bus.get_game_results(${gameId})`)
   dbGame.get_game_results(gameId, (err, rows) => {
@@ -83,6 +97,7 @@ exportsObj.get_game_winner = function(gameId, callback) {
     }
   });
 }
+
 
 
 module.exports = exportsObj;

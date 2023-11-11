@@ -8,8 +8,17 @@ console.log('Setting up Team Routes')
 router.get('/', teamController.getAllteams);
 
 // In teamRoutes.js
-router.get('/:id', teamController.getteamById);
+router.get('/:id', teamController.getTeamById);
 
+router.get('/byTeamName/:teamName', teamController.getTeamByTeamName);
+
+router.get('/byTeamId/:id', teamController.getTeamById);
+
+router.get('/scorecard/:id', teamController.getTeamScorecard);
+
+//router.get('/teamGames/:id', teamController.getTeamGames);
+
+router.get('/teamGameData/:id', teamController.getTeamGameData);
 
 // Export the router
 module.exports = router;

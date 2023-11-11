@@ -64,7 +64,7 @@ exports.getAllteams = (req, res) => {
  *       '404':
  *         description: team not found.
  */
-exports.getteamById = (req, res) => {
+exports.getTeamById = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamid = req.params.id;
   console.log(`/api/team/:${teamid} endpoint`)
@@ -129,3 +129,50 @@ exports.getTeamByTeamName = (req, res) => {
     res.json(rows);
     });      
 };
+
+
+
+exports.getTeamScorecard = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/game/scorecard/:${teamId} endpoint`)
+  bus.get_team_scorecard(teamId, (err, rows) => {
+    if (rows == null) {
+      console.log(`ERROR: ${err}`)
+      res.status(500).json({ error: err.message });  //TODO this is a specific error and needs to be more friendly to the user
+      return;
+    }
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found for ${teamId}`});
+      return;
+    }
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({'data': rows});
+    });
+}
+
+
+exports.getTeamGameData = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/game/scorecard/:${teamId} endpoint`)
+  bus.get_team_game_data(teamId, (err, rows) => {
+    if (rows == null) {
+      console.log(`ERROR: ${err}`)
+      res.status(500).json({ error: err.message });  //TODO this is a specific error and needs to be more friendly to the user
+      return;
+    }
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found for ${teamId}`});
+      return;
+    }
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(rows);
+    });
+}

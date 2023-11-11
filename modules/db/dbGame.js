@@ -54,6 +54,23 @@ exportsObj.get_games_by_team_name = function(teamName, callback) {
   });
 }
 
+exportsObj.get_games_by_team_id = function(teamId, callback) {
+  console.log(`db.get_game_by_team_id(${teamId})`)
+  if (isNaN(parseInt(teamId))) {
+    callback(new Error('Invalid teamId'), null);
+    return;
+  }
+  const query = `SELECT * from game where team_id = ${teamId} or opponent_id = ${teamId}`;
+  db.all(query, (err, rows) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      console.log(rows)
+      callback(null, rows);
+    }
+  });
+  }
+
 
 exportsObj.get_top_rebounds = function(num, callback) {
   console.log('db.get_top_rebounds()')

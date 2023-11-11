@@ -32,15 +32,34 @@ app.use('/sbadmin', express.static('sbadmin'));
 app.use('/images', express.static('images'));
 app.set('view engine', 'ejs');
 
+// Define a middleware that sets the CSP header with the 'self' source for scripts
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'");
+    next();
+  });
+
+  
+// Define a middleware function to set the 'Content-Type' header for JavaScript files
+app.use((req, res, next) => {
+    // Check if the requested URL ends with '.js' to identify JavaScript files
+    if (req.url.endsWith('.js')) {
+      // Set the 'Content-Type' header to 'text/javascript'
+      res.setHeader('Content-Type', 'text/javascript');
+    }
+    // Continue to the next middleware or route handler
+    next();
+  });
+  
 
 //This is to handle any page with one route, e.g., team, player, game, etc.
-app.get('/pages/:pageName', (req, res) => {
+/*app.get('/pages/:pageName', (req, res) => {
     const pageName = req.params.pageName;
     //res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
     res.render(pageName);
   });
+*/
 
-app.get('/teamx', (req, res) => {
+app.get('/team', (req, res) => {
     console.log('/team page')    
     //res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
     res.render('team', { pageTitle: 'Team',
@@ -54,6 +73,9 @@ app.get('/teamx', (req, res) => {
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'Healthy' });
   });
+
+
+
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

@@ -18,6 +18,9 @@ router.get('/winner/:gameId', gameController.getGameWinner);
 
 router.get('/results/:gameId', gameController.getGameResults);
 
+
+
+
 // Export the router
 module.exports = router;
 
