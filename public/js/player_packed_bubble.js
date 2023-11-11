@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .then((data) => {    
             const series = data.series
             const team_name = data.team_name
+            console.log(`team name is ${team_name}`)
+            $('#teamname').text(team_name);
             // Create the Highcharts hbar chart
             Highcharts.chart('container', {
                 chart: {

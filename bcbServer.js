@@ -30,6 +30,8 @@ app.use(express.static('public'));
 app.use('/node_modules', express.static('node_modules'));
 app.use('/sbadmin', express.static('sbadmin'));
 app.use('/images', express.static('images'));
+app.use('/js', express.static('js'));
+app.use('/css', express.static('css'));
 app.set('view engine', 'ejs');
 
 // Define a middleware that sets the CSP header with the 'self' source for scripts
@@ -52,21 +54,10 @@ app.use((req, res, next) => {
   
 
 //This is to handle any page with one route, e.g., team, player, game, etc.
-/*app.get('/pages/:pageName', (req, res) => {
+app.get('/pages/:pageName', (req, res) => {
     const pageName = req.params.pageName;
-    //res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
     res.render(pageName);
   });
-*/
-
-app.get('/team', (req, res) => {
-    console.log('/team page')    
-    //res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
-    res.render('team', { pageTitle: 'Team',
-        body: 'This is the main content of the  Team page.', 
-    });
-  });
-
 
 
 // Health check route
