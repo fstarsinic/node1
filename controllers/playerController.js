@@ -119,3 +119,20 @@ exports.getPlayersByTeamName = (req, res) => {
         res.json(rows);
   });      
 }
+
+
+exports.getPlayerData = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/player endpoint')
+      bus.get_player_data((err, rows) => {
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found.`});
+          return;
+        }    
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.json(rows);
+      });      
+}

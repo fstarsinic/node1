@@ -72,4 +72,26 @@ exportsObj.get_player_by_id = function(num, callback) {
     });
   };
 
+
+  exportsObj.get_player_data = function(callback) {
+    // Function to transform db rows to highcharts series for packed bubble
+    console.log(`bus.get_player_data()`)
+      dbPlayer.get_player_data((err, rows) => {
+      if (err) {
+        console.log(`error: ${err}`)
+        callback(err, null);
+      } else {
+        console.log('Success getting bus data');
+        //console.log(rows)  ;
+  
+        const jdata = rows.map(row => Object.values(row));
+        const resp = { data: jdata}
+        console.log(resp)
+        callback(null, resp);
+        }
+      });
+  }
+
+
+
 module.exports = exportsObj;

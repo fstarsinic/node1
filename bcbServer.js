@@ -45,6 +45,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     // Check if the requested URL ends with '.js' to identify JavaScript files
     if (req.url.endsWith('.js')) {
+      console.log(`Setting content type for ${req.url} to text/javascript`);
       // Set the 'Content-Type' header to 'text/javascript'
       res.setHeader('Content-Type', 'text/javascript');
     }

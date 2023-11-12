@@ -71,15 +71,7 @@ exportsObj.get_players_by_team_id = function(teamId, callback) {
       console.log(`error: ${err}`)
       callback(err, null);
     } else {
-      console.log('Success getting data')
-
-      // Transform rows into an array of arrays
-      // TODO: this should occur in a matching bus function
-      console.log(rows)
-      const jdata = rows.map(row => Object.values(row));
-      const resp = { data: jdata}
-      console.log(resp)
-      callback(null, resp);
+      callback(null, rows);
     }
   });
 }

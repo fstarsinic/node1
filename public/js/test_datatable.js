@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const table = $('#data_container').DataTable({
-    ajax: '/api/players',
+    ajax: '/api/player/stats/playerData',
     columnDefs: [
       {
         targets: 2,
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
           var url = data;
           var team_id =   row[3]
           // Customize the rendering by returning the HTML for the hyperlink
-          return '<a href="/team?team=' + team_id + '">' + url + '</a>';
+          return '<a href="/pages/team?team=' + team_id + '">' + url + '</a>';
         },
       },
       {
