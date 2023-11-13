@@ -14,6 +14,11 @@ router.get('/byTeamName/:teamName', playerController.getPlayersByTeamName);
 
 router.get('/byTeamId/:id', playerController.getPlayersByTeamId);
 
-router.get('/stats/playerData', playerController.getPlayerData);
+router.get('/stats/playerStats', playerController.getPlayerStats);
+
+router.get('/stats/playerDataById/:id', playerController.getPlayerDataById);
+
+
+
 // Export the router
 module.exports = router;

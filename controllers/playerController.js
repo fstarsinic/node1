@@ -120,11 +120,27 @@ exports.getPlayersByTeamName = (req, res) => {
   });      
 }
 
-
-exports.getPlayerData = (req, res) => {
+exports.getPlayerStats = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/player endpoint')
-      bus.get_player_data((err, rows) => {
+      bus.get_player_stats((err, rows) => {
+        if (rows.length == 0) {
+          res.status(404).json({ error: `Results Not Found.`});
+          return;
+        }    
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.json(rows);
+      });      
+}
+
+exports.getPlayerDataById = (req, res) => {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const playerid = req.params.id;
+  console.log(`/api/stats/getPlayerDataById/:${playerid} endpoint`)
+      bus.get_player_data(playerid, (err, rows) => {
         if (rows.length == 0) {
           res.status(404).json({ error: `Results Not Found.`});
           return;

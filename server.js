@@ -55,7 +55,7 @@ app.get('/dashboard', (req, res) => {
 // Define a route to fetch data from the database
 app.get('/api/players', (req, res) => {
     console.log('/api/players endpoint')
-        db.get_player_data((err, rows) => {
+        db.get_player_stats((err, rows) => {
             if (err) {
               res.status(500).json({ error: err.message });
               return;

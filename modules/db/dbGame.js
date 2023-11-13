@@ -200,8 +200,8 @@ exportsObj.get_top_rebounds = function(num, callback) {
 }
 
  // Function to fetch data from the database based on the query parameter
- exportsObj.get_player_data = function(callback) {
-  console.log('db.get_player_data()')
+ exportsObj.get_player_stats = function(callback) {
+  console.log('db.get_player_stats()')
   const query = `SELECT p.firstname, p.lastname, t.team_name, t.team_id, avg(points), avg(g.ORebounds+g.DRebounds) as Rebounds,avg(g.Assists),avg(g.Steals),avg(g.Blocks),avg(g.Turnovers),
   round(sum(g.TwoPointMade) *100 / sum(g.TwoPointattempted),2) as FieldGoalPct,
   round(sum(g.ThreePointMade) * 100 / sum(g.ThreePointAttempted),2) as ThreePointPercent,

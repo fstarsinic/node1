@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const table = $('#data_container').DataTable({
-    ajax: '/api/player/stats/playerData',
+    ajax: '/api/player/stats/playerStats',
     columnDefs: [
       {
         targets: 2,
