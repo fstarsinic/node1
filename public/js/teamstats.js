@@ -4,7 +4,7 @@ Highcharts.chart('hichart_teamstats', {
         type: 'line'
     },
     title: {
-        text: 'Monthly Average Temperature'
+        text: 'Totals per Game'
     },
     subtitle: {
         text: 'Source: ' +
@@ -12,7 +12,7 @@ Highcharts.chart('hichart_teamstats', {
             'target="_blank">Wikipedia.com</a>'
     },
     xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        categories: ['Game1', 'Game2', 'Game3', 'Game4', 'Game5']
     },
     yAxis: {
         title: {
@@ -28,13 +28,14 @@ Highcharts.chart('hichart_teamstats', {
         }
     },
     series: [{
-        name: 'Reggane',
-        data: [16.0, 18.2, 23.1, 27.9, 32.2, 36.4, 39.8, 38.4, 35.5, 29.2,
-            22.0, 17.8]
+        name: 'Points',
+        data: [36.0, 48, 32, 27, 32]
     }, {
-        name: 'Tallinn',
-        data: [-2.9, -3.6, -0.6, 4.8, 10.2, 14.5, 17.6, 16.5, 12.0, 6.5,
-            2.0, -0.9]
+        name: 'Rebounds',
+        data: [17, 21, 12, 16, 10]
+    }, {
+        name: 'Turnovers',
+        data: [7, 2, 4, 9, 3]
     }]
 });
 
