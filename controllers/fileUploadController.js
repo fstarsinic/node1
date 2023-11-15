@@ -43,7 +43,7 @@ function handleFileUpload(req, res) {
         console.error(err);
         res.redirect('/pages/fileUploadResult?msg=fail');
     } else {
-        res.redirect('/pages/fileUploadResultmsg=success');
+        res.redirect('/pages/fileUploadResult?msg=success');
     }
 
 
