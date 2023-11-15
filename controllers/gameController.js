@@ -84,7 +84,7 @@ exports.getGameById = (req, res) => {
 exports.getGamesByTeamName = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamName = req.params.teamName;
-  console.log(`/api/game/byTeamName/:${teamName} endpoint`)
+  console.log(`/api/game/FindByName/:${teamName} endpoint`)
   bus.get_games_by_team_name(teamName, (err, rows) => {
     if (rows.length == 0) {
       res.status(404).json({ error: `Results Not Found for ${teamName}`});

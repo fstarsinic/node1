@@ -10,15 +10,15 @@ router.get('/', teamController.getAllteams);
 // In teamRoutes.js
 router.get('/:id', teamController.getTeamById);
 
-router.get('/byTeamName/:teamName', teamController.getTeamByTeamName);
+router.get('/findByName/:teamName', teamController.getTeamByName);
 
-router.get('/byTeamId/:id', teamController.getTeamById);
+router.get('/byTeamId/:id', teamController.getTeamById); // This is the same as the one above TODO: Remove this one?
 
 router.get('/scorecard/:id', teamController.getTeamScorecard);
 
 //router.get('/teamGames/:id', teamController.getTeamGames);
 
-router.get('/teamGameData/:id', teamController.getTeamGameData);
+router.get('/gameData/:id', teamController.getTeamGameData);
 
 // Export the router
 module.exports = router;

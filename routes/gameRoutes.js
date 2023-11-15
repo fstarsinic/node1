@@ -12,7 +12,7 @@ router.get('/', gameController.getAllgames);
 
 router.get('/:id', gameController.getGameById);
 
-router.get('/byTeamName/:teamName', gameController.getGamesByTeamName);
+router.get('/FindByName/:teamName', gameController.getGamesByTeamName);
 
 router.get('/winner/:gameId', gameController.getGameWinner);
 

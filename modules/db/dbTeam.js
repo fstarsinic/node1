@@ -32,6 +32,18 @@ exportsObj.get_team_by_id = function(teamid, callback) {
   });
 }
 
+exportsObj.get_team_by_name = function(teamName, callback) {
+  console.log(`db.get_team_by_name(${teamName}})`)
+  const query = `SELECT team_id, team_name from team where team_name = '${teamName}'`;
+  console.log(query)
+  db.all(query, (err, rows) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, rows);
+    }
+  });
+}
 
 
  // Function to fetch data from the database based on the query parameter
@@ -52,4 +64,3 @@ exportsObj.get_team_by_id = function(teamid, callback) {
 
 // At the bottom of the module, export the entire object
 module.exports = exportsObj;
-

@@ -1,7 +1,40 @@
 const express = require('express');
+const app = express();
+
 const router = express.Router();
 
-const app = express();
+// Middleware and other configurations
+app.use(express.json()); // JSON request body parsing
+
+const cors = require('cors');
+app.use(cors());
+
+const path = require('path');
+
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
+// Define a middleware that sets the CSP header with the 'self' source for scripts
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'");
+  next();
+});
+
+
+// Define a middleware function to set the 'Content-Type' header for JavaScript files
+app.use((req, res, next) => {
+  // Check if the requested URL ends with '.js' to identify JavaScript files
+  if (req.url.endsWith('.js')) {
+    console.log(`Setting content type for ${req.url} to text/javascript`);
+    // Set the 'Content-Type' header to 'text/javascript'
+    res.setHeader('Content-Type', 'text/javascript');
+  }
+  // Continue to the next middleware or route handler
+  next();
+});
+
+
+
 
 const playerRoutes = require('./routes/playerRoutes');
 app.use('/api/player', playerRoutes);
@@ -12,16 +45,11 @@ app.use('/api/team', teamRoutes);
 const gameRoutes = require('./routes/gameRoutes');
 app.use('/api/game', gameRoutes);
 
+const fileUploadRoutes = require('./routes/fileUploadRoutes');
+app.use('/api/upload', fileUploadRoutes);
 
-// Middleware and other configurations
-const cors = require('cors');
-const path = require('path');
-app.use(express.json()); // JSON request body parsing
-app.use(cors());
 
 const port = process.env.port || 80;
-
-// Enable CORS for all routes
 
 console.log('Server starting...')
 console.log(path.join(__dirname, 'public', 'index.html'))
@@ -34,25 +62,6 @@ app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
 app.set('view engine', 'ejs');
 
-// Define a middleware that sets the CSP header with the 'self' source for scripts
-app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'");
-    next();
-  });
-
-  
-// Define a middleware function to set the 'Content-Type' header for JavaScript files
-app.use((req, res, next) => {
-    // Check if the requested URL ends with '.js' to identify JavaScript files
-    if (req.url.endsWith('.js')) {
-      console.log(`Setting content type for ${req.url} to text/javascript`);
-      // Set the 'Content-Type' header to 'text/javascript'
-      res.setHeader('Content-Type', 'text/javascript');
-    }
-    // Continue to the next middleware or route handler
-    next();
-  });
-  
 
 //This is to handle any page with one route, e.g., team, player, game, etc.
 app.get('/pages/:pageName', (req, res) => {
@@ -65,6 +74,15 @@ app.get('/pages/:pageName', (req, res) => {
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'Healthy' });
   });
+
+
+app.get('/check-cors', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Set the allowed origin here
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true'); // If needed
+  res.send('CORS headers are set correctly.');
+});
 
 
 

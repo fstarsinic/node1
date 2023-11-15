@@ -113,11 +113,16 @@ exports.getTeamById = (req, res) => {
  *    description: game not found.
  * 
  */
-exports.getTeamByTeamName = (req, res) => {
+exports.getTeamByName = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamName = req.params.teamName;
-  console.log(`/api/game/:${teamName} endpoint`)
-  bus.get_team_by_team_name(teamName, (err, rows) => {
+  console.log(`/api/team/findByName/:${teamName} endpoint`)
+  bus.get_team_by_name(teamName, (err, rows) => {
+    if (rows == null) {
+      console.log(`ERROR: ${err}`)
+      res.status(500).json({ error: err.message });  //TODO this is a specific error and needs to be more friendly to the user
+      return;
+    }
     if (rows.length == 0) {
       res.status(404).json({ error: `Results Not Found for ${teamName}`});
       return;
@@ -135,7 +140,7 @@ exports.getTeamByTeamName = (req, res) => {
 exports.getTeamScorecard = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamId = req.params.id;
-  console.log(`/api/game/scorecard/:${teamId} endpoint`)
+  console.log(`/api/team/scorecard/:${teamId} endpoint`)
   bus.get_team_scorecard(teamId, (err, rows) => {
     if (rows == null) {
       console.log(`ERROR: ${err}`)
@@ -158,7 +163,7 @@ exports.getTeamScorecard = (req, res) => {
 exports.getTeamGameData = (req, res) => {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamId = req.params.id;
-  console.log(`/api/game/scorecard/:${teamId} endpoint`)
+  console.log(`/api/team/gameData/:${teamId} endpoint`)
   bus.get_team_game_data(teamId, (err, rows) => {
     if (rows == null) {
       console.log(`ERROR: ${err}`)

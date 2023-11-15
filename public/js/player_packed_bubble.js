@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(`result: num is ${num}`)
   
       // Fetch data from server
-      fetch(`/api/team/teamGameData/${num}`)
+      fetch(`/api/team/gameData/${num}`)
         .then((response) => response.json())
         .then((data) => {    
             const series = data.series
