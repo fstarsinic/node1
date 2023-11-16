@@ -8,7 +8,6 @@ node_modules/**/LICENSE
 node_modules/**/README
 node_modules/**/Makefile
 node_modules/*.*
-swagger-server/**/*
 uploads/*
 !uploads/readme
-
+nodejs-server-server-generated.zip
