@@ -11,7 +11,7 @@ function handleFileUpload(req, res) {
   console.log('handleFileUpload called')
   console.log(req.csvFile)
   if (!req.files || !req.files.csvFile) {
-    return res.status(400).send('No CSV file uploaded');
+    return res.status(400).send({message: 'No CSV file uploaded. Form field name must be "csvFile"'});
   }
 
   const maxSize = 1024 * 1024; // 1 MB
@@ -19,12 +19,12 @@ function handleFileUpload(req, res) {
   console.log(`Uploaded file: ${uploadedFile}`)
 
   if (uploadedFile.size > maxSize) {
-    return res.status(400).send('File size exceeds 1 MB');
+    return res.status(400).send({message: 'File size exceeds 1 MB'});
   }
 
   const allowedFilenameRegex = /^[a-zA-Z0-9_\.]+$/;
   if (!allowedFilenameRegex.test(uploadedFile.name)) {
-    return res.status(400).send('Invalid filename. Use only alphanumeric characters.');
+    return res.status(400).send({message: 'Invalid filename. Use only alphanumeric characters.'});
   }
 
 
@@ -35,9 +35,11 @@ function handleFileUpload(req, res) {
   // Assuming 'uploadedFile' is your file data
   const fileBuffer = Buffer.from(uploadedFile.data);
 
+  fs.writeFile(filePath, fileBuffer, (err) => {
+    return res.status(200).send({message: 'Successful upload.'});
+  });
 
-
-  // Save the file to disk
+/*  // Save the file to disk
   fs.writeFile(filePath, fileBuffer, (err) => {
     if (err) {
         console.error(err);
@@ -45,9 +47,11 @@ function handleFileUpload(req, res) {
     } else {
         res.redirect('/pages/fileUploadResult?msg=success');
     }
-
+    return res.status(200).send('File uploaded successfully');
 
   });
+*/
+
 }
 
 module.exports = {
