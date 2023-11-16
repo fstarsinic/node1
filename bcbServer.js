@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
+
 
 const router = express.Router();
 
@@ -63,6 +65,7 @@ app.use('/css', express.static('css'));
 app.set('view engine', 'ejs');
 
 
+
 //This is to handle any page with one route, e.g., team, player, game, etc.
 app.get('/pages/:pageName', (req, res) => {
     const pageName = req.params.pageName;
@@ -84,7 +87,20 @@ app.get('/check-cors', (req, res) => {
   res.send('CORS headers are set correctly.');
 });
 
-
+app.get('/dir', (req, res) => {
+  // Read the contents of a directory (e.g., 'public') using fs.readdir
+  const directoryPath = './uploads'; // Replace with your directory path
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error reading directory');
+    } else {
+      console.log(files);
+      // Render the EJS template with the directory contents
+      res.render('listDirectory', { files });
+    }
+  });
+});
 
 
 app.listen(port, () => {
