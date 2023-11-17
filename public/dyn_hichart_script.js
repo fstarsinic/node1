@@ -4,29 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const num = parseInt(queryParams.get('num'));
 
 
-  function createChart(containerId, data) {
-    Highcharts.chart(containerId, {
-      title: {
-        text: 'Chart Title',
-      },
-      xAxis: {
-        categories: data.map((item) => item.category),
-      },
-      yAxis: {
-        title: {
-          text: 'Values',
-        },
-      },
-      series: [
-        {
-          name: 'Data',
-          data: data.map((item) => item.value),
-        },
-      ],
-    });
-  }
-
-
     // Fetch data from server
     fetch(`/hichart_data?num=${num}`)
       .then((response) => response.json())

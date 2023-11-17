@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<%- include('partials/datatables') %>
 <%- include('partials/sidebar') %>
         
 
@@ -222,8 +223,10 @@
                     <table id="data_container" class="display" cellspacing="0" width="100%">
                         <thead>
                            <tr>
-                            <th>ID</th>
-                            <th>Player</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Team</th>
+                            <th>TeamId</th>
                             <th>Points</th>
                             <th>Rebounds</th>
                             <th>Assists</th>
@@ -233,13 +236,14 @@
                             <th>FieldGoalPct</th>
                             <th>ThreePointPercent</th>
                             <th>FTPercent</th>
-                            <th>TrueShootingPct</th>
                            </tr>
                         </thead>
                         <tfoot>
                            <tr>
-                            <th>ID</th>
-                            <th>Player</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Team</th>
+                            <th>TeamId</th>
                             <th>Points</th>
                             <th>Rebounds</th>
                             <th>Assists</th>
@@ -249,12 +253,11 @@
                             <th>FieldGoalPct</th>
                             <th>ThreePointPercent</th>
                             <th>FTPercent</th>
-                            <th>TrueShootingPct</th>
                           </tr>
                         </tfoot>
                      </table>
 
-                    <script src="js/test_datatable.js"></script>
+                    <script src="/js/test_datatable.js"></script>
                 
                 </div>
                 <!-- /.container-fluid -->

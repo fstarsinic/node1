@@ -1,5 +1,5 @@
 CREATE TABLE game_data (
-    GameId INTEGER,
+    game_id INTEGER,
     Team TEXT,
     Opponent TEXT,
     Player TEXT,

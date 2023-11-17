@@ -1,4 +1,5 @@
 @startuml
+title typical design
 actor       User       as User
 participant Server as Webserver
 participant Endpoint as Endpoint

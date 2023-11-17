@@ -1,0 +1,35 @@
+@startuml
+title Design for API calls
+actor       User       as User
+participant Server as Webserver
+participant Endpoint as Endpoint
+participant Controller as Controller
+participant Business as Bus
+participant DBLayer as Model
+database    Database    as DB
+
+User -> Webserver : Web Request
+Webserver -> Webserver: Lookup Endpoint/Route
+Webserver -> Endpoint: Execute 
+Endpoint -> Bus: Send Request
+Bus -> Model: Request Data A
+Bus -> Model: Request Data B
+Bus -> Model: Request Data C
+
+Model -> DB: Get Resultset from Database A
+Model -> DB: Get Resultset from Database B 
+Model -> DB: Get Resultset from Database C
+
+DB -> Model: Return Rows A
+DB -> Model: Return Rows B
+DB -> Model: Return Rows C
+
+Model -> Bus: Return Rows A
+Model -> Bus: Return Rows B
+Model -> Bus: Return Rows C
+
+Bus -> Bus: Execute Business Logic
+Bus -> Endpoint: Results
+Endpoint -> Webserver: JSON
+Webserver -> User: JSON
+@enduml
