@@ -11,3 +11,5 @@ node_modules/*.*
 uploads/*
 !uploads/readme
 nodejs-server-server-generated.zip
+.DS_Store
+
