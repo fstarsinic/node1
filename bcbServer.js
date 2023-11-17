@@ -79,6 +79,8 @@ app.get('/health', (req, res) => {
   });
 
 
+
+
 app.get('/check-cors', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // Set the allowed origin here
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
