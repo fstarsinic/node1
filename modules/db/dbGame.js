@@ -127,6 +127,7 @@ exportsObj.get_game_results = function(gameId, callback) {
     callback(new Error('Invalid gameId'), null);
     return;
   }
+  //TODO fix this query to change sum(points) to sum(points) as points. the bus function will also need to be changed
   const query = `select sum(points), team from game_data where game_id = ${gameId} group by team`;
   db.all(query, (err, rows) => {
     if (err) {
@@ -145,6 +146,7 @@ exportsObj.get_game_winner = function(gameId, callback) {
     callback(new Error('Invalid gameId'), null);
     return;
   }
+  //TODO fix this query to change max(points) to max(points) as points. the bus function will also need to be changed
   const query = `select max(pts), team from (select sum(points) as pts, team from game_data where game_id = ${gameId} group by team);`;
   db.all(query, (err, rows) => {
     if (err) {

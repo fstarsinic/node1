@@ -22,6 +22,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  console.log('Request Origin:', req.headers.origin);
+  next();
+});
+
 
 // Define a middleware function to set the 'Content-Type' header for JavaScript files
 app.use((req, res, next) => {
