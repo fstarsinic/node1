@@ -6,277 +6,157 @@ const exportsObj = {};
 // Open the SQLite database
 const db = new sqlite3.Database('mydatabase.db');
 
-// Function to fetch data from the database based on the query parameter
-exportsObj.get_games = function(callback) {
-  console.log('db.get_games()')
-  const query = `SELECT game_id, team, opponent from game`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
 
-// Function to fetch data from the database based on the query parameter
-exportsObj.get_game_by_id = function(gameid, callback) {
-  console.log('db.get_games()')
-  if (isNaN(parseInt(gameid))) {
-    callback(new Error('Invalid gameId'), null);
-    return;
-  }
-  const query = `SELECT game_id, team, opponent from game where game_id = ${gameid}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
+async function get_games_deep() {
+  console.log('db.get_games_deep()')
 
-
-exportsObj.get_games_by_team_name = function(teamName, callback) {
-  console.log('db.get_game_by_team_name()')
-  if (!/^[a-z0-9]+$/i.test(teamName)) {
-    callback(new Error('Invalid teamName'), null);
-    return;
-  }
-  const query = `SELECT * from game where team = '${teamName}' or opponent = '${teamName}'`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      console.log(rows)
-      callback(null, rows);
-    }
-  });
-}
-
-exportsObj.get_games_by_team_id = function(teamId, callback) {
-  console.log(`db.get_game_by_team_id(${teamId})`)
-  if (isNaN(parseInt(teamId))) {
-    callback(new Error('Invalid teamId'), null);
-    return;
-  }
-  const query = `SELECT * from game where team_id = ${teamId} or opponent_id = ${teamId}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      console.log(rows)
-      callback(null, rows);
-    }
-  });
-  }
-
-
-exportsObj.get_top_rebounds = function(num, callback) {
-  console.log('db.get_top_rebounds()')
-  if (isNaN(parseInt(num))) {
-    callback(new Error('Invalid num'), null);
-    return;
-  }
-  const query = `SELECT Player, avg(Rebounds) FROM game_data  group by Player order by avg(Rebounds) desc limit ${num}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
-
-exportsObj.get_top_multi = function(num, callback) {
-  console.log('db.get_top_multi()')
-  if (isNaN(parseInt(num))) {
-    callback(new Error('Invalid num'), null);
-    return;
-  }
-  const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player limit ${num}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      console.log('Success getting data')
-      callback(null, rows);
-    }
-  });
-}
-
-exportsObj.get_multi = function(callback) {
-  console.log('db.get_multi()')
-  const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      console.log('Success getting data')
-      callback(null, rows);
-    }
-  });
-}
-
-
-exportsObj.get_game_results = function(gameId, callback) {
-  console.log('db.get_game_results()')
-  if (isNaN(parseInt(gameId))) {
-    callback(new Error('Invalid gameId'), null);
-    return;
-  }
-  //TODO fix this query to change sum(points) to sum(points) as points. the bus function will also need to be changed
-  const query = `select sum(points), team from game_data where game_id = ${gameId} group by team`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      console.log(rows)
-      callback(null, rows);
-    }
-  });
-}
-
-
-exportsObj.get_game_winner = function(gameId, callback) {
-  console.log('db.get_game_winner()')
-  if (isNaN(parseInt(gameId))) {
-    callback(new Error('Invalid gameId'), null);
-    return;
-  }
-  //TODO fix this query to change max(points) to max(points) as points. the bus function will also need to be changed
-  const query = `select max(pts), team from (select sum(points) as pts, team from game_data where game_id = ${gameId} group by team);`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      console.log(rows)
-      callback(null, rows);
-    }
-  });
-}
-
-// Function to fetch data from the database based on the query parameter
-exportsObj.get_top_rebounds = function(num, callback) {
-    console.log('db.get_top_rebounds()')
-    const query = `SELECT Player, avg(Rebounds) FROM game_data  group by Player order by avg(Rebounds) desc limit ${num}`;
+  return new Promise((resolve, reject) => {
+    const query = `select game_id, team, team_id, sum(points) as Points from game_data group by game_id, team order by game_id, Points desc`;
+    console.log(query)
     db.all(query, (err, rows) => {
+      //console.log(rows)
       if (err) {
-        callback(err, null);
+        reject(err); // Reject the Promise with an error
+      }
+      else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  });
+}
+module.exports.get_games_deep = get_games_deep;
+
+
+async function get_games() {
+  console.log('db.get_games()');
+
+  return new Promise((resolve, reject) => {
+    const query = `SELECT game_id, team, opponent from game`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      console.log(rows)
+      if (err) {
+        reject(err); // Reject the Promise with an error
       } else {
-        callback(null, rows);
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  });
+};
+module.exports.get_games = get_games;
+
+
+async function get_game_by_id(gameid) {
+  console.log(`db.get_game_by_id(${gameid})})`)
+
+  return new Promise((resolve, reject) => {
+    if (isNaN(parseInt(gameid))) {
+      reject(new Error('Invalid gameId'));
+    }
+    const query = `SELECT game_id, team, opponent from game where game_id = ${gameid}`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      console.log(rows)
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      } else {
+        resolve(rows); // Resolve the Promise with the result
       }
     });
   }
-  
- // Function to fetch data from the database based on the query parameter
- exportsObj.get_top_multi = function(num, callback) {
-  console.log('db.get_top_multi()')
-  const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player limit ${num}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      console.log('Success getting data')
-      callback(null, rows);
+  );
+};
+module.exports.get_game_by_id = get_game_by_id;
+
+
+async function get_game_by_team_name(teamName) {
+  console.log('db.get_game_by_team_name()')
+
+  return new Promise((resolve, reject) => {
+    if (!/^[a-z0-9]+$/i.test(teamName)) {
+      reject(new Error('Invalid teamName'));
     }
-  });
-}
+    const query = `SELECT * from game where team = '${teamName}' or opponent = '${teamName}'`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      } else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
 
- // Function to fetch data from the database based on the query parameter
- exportsObj.get_multi = function(callback) {
-  console.log('db.get_multi()')
-  const query = `SELECT Player, sum(Rebounds), sum(Points), sum(Turnovers) FROM game_data  group by Player order by Player`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      console.log('Success getting data')
-      callback(null, rows);
+  );
+}
+module.exports.get_game_by_team_name = get_game_by_team_name;
+
+
+async function get_games_by_team_id(teamId) {
+  console.log('db.get_games_by_team_id()')
+
+  return new Promise((resolve, reject) => {
+    if (isNaN(parseInt(teamId))) {
+      reject(new Error('Invalid teamId'));
     }
-  });
+    const query = `SELECT * from game where team_id = ${teamId} or opponent_id = ${teamId}`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      if (err) {
+        console.log('rejecting')
+        reject(err); // Reject the Promise with an error
+      } else {
+        console.log('resolving')
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+
+  );
 }
+module.exports.get_games_by_team_id = get_games_by_team_id;
 
- // Function to fetch data from the database based on the query parameter
- exportsObj.get_player_stats = function(callback) {
-  console.log('db.get_player_stats()')
-  const query = `SELECT p.firstname, p.lastname, t.team_name, t.team_id, avg(points), avg(g.ORebounds+g.DRebounds) as Rebounds,avg(g.Assists),avg(g.Steals),avg(g.Blocks),avg(g.Turnovers),
-  round(sum(g.TwoPointMade) *100 / sum(g.TwoPointattempted),2) as FieldGoalPct,
-  round(sum(g.ThreePointMade) * 100 / sum(g.ThreePointAttempted),2) as ThreePointPercent,
-  round(sum(g.FTMade) *100 /sum(g.FTAttempted),2) as FTPercent 
-  FROM game_data g, player p, team t where g.player_id = p.id and g.team_id = t.team_id group by Player order by Player`;
-  console.log(query)
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      console.log('Success getting data')
 
-      // Transform rows into an array of arrays
-      // TODO: this should occur in a matching bus function
-      console.log(rows)
-      const jdata = rows.map(row => Object.values(row));
-      const resp = { data: jdata}
-      console.log(resp)
-      callback(null, resp);
+async function get_game_results(gameId) {
+  console.log('db.get_game_results()')
+
+  return new Promise((resolve, reject) => {
+    if (isNaN(parseInt(gameId))) {
+      reject(new Error('Invalid gameId'));
     }
-  });
-}
+    const query = `select sum(points), team from game_data where game_id = ${gameId} group by team`;
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      } else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
 
- // Function to fetch data from the database based on the query parameter
- exportsObj.get_team_game_data = function(num, callback) {
-  console.log('db.get_team_game_data()')
-  const query = `select Team, Player, Game, Opponent, Points, player_id,team_id from game_data where team_id = ${num} order by player, game;`;
-  console.log(query)
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      callback(null, rows)
+  );
+}
+module.exports.get_game_results = get_game_results;
+
+
+async function get_game_winner(gameId) {
+  console.log('db.get_game_winner()')
+
+  return new Promise((resolve, reject) => {
+    if (isNaN(parseInt(gameId))) {
+      reject(new Error('Invalid gameId'));
     }
-  });
+    const query = `select max(pts), team from (select sum(points) as pts, team from game_data where game_id = ${gameId} group by team);`;
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      } else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+
+  );
 }
+module.exports.get_game_winner = get_game_winner;
 
-
-// Function to fetch data from the database based on the query parameter
- exportsObj.xx_get_game_results = function(team1, team2, game, callback) {
-  console.log(`db.get_game_results(${team1}, ${team2}, ${game})`)
-  const query = `SELECT
-  game_id,
-  MAX(CASE WHEN team_id = ${team1} THEN team END) AS team1,
-  MAX(CASE WHEN team_id = ${team2} THEN team END) AS team2,
-  MAX(CASE WHEN team_id = ${team1} THEN sum_points END) AS team1_points,
-  MAX(CASE WHEN team_id = ${team2} THEN sum_points END) AS team2_points,
-  CASE
-    WHEN MAX(CASE WHEN team_id = ${team1} THEN sum_points END) > MAX(CASE WHEN team_id = ${team2} THEN sum_points END) THEN 'W'
-    WHEN MAX(CASE WHEN team_id = ${team2} THEN sum_points END) < MAX(CASE WHEN team_id = ${team2} THEN sum_points END) THEN 'L'
-    ELSE 'Tie'
-  END AS winner
-FROM (
-  SELECT game_id, SUM(points) AS sum_points, team, team_id
-  FROM game_data
-  WHERE team_id IN (${team1}, ${team2}) AND game_id = ${game}
-  GROUP BY game_id, team, team_id
-) AS subquery
-GROUP BY game_id`;
-  console.log(query)
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      console.log('db.get_game_results_by_team results --->')
-      console.log(rows)
-      callback(null, rows)
-    }
-  });
-}
-
-// At the bottom of the module, export the entire object
-module.exports = exportsObj;

@@ -6,61 +6,109 @@ const exportsObj = {};
 // Open the SQLite database
 const db = new sqlite3.Database('mydatabase.db');
 
-// Function to fetch data from the database based on the query parameter
-exportsObj.get_teams = function(callback) {
-  console.log('db.get_teams()')
-  const query = `SELECT team_id, team_name from team`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
+async function get_all_teams() {
+  console.log('db.get_all_teams()')
+
+  return new Promise((resolve, reject) => {
+    const query = `select game_id, team, sum(points) as Points from game_data group by game_id, team order by game_id, Points desc`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      //console.log(rows)
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      }
+      else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
   });
 }
+module.exports.get_all_teams = get_all_teams;
+
 
 // Function to fetch data from the database based on the query parameter
-exportsObj.get_team_by_id = function(teamid, callback) {
+async function get_teams() {
   console.log('db.get_teams()')
-  const query = `SELECT team_id, team_name from team where team_id = ${teamid}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
+  return new Promise((resolve, reject) => {
+    const query = `SELECT team_id, team_name from team`;
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+});
 }
+module.exports.get_teams = get_teams;
 
-exportsObj.get_team_by_name = function(teamName, callback) {
-  console.log(`db.get_team_by_name(${teamName}})`)
-  const query = `SELECT team_id, team_name from team where team_name = '${teamName}'`;
-  console.log(query)
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
+
+async function get_team_by_name(teamName) {
+  return new Promise((resolve, reject) => {
+    // Check if teamName is alphanumeric
+    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    if (!alphanumericRegex.test(teamName)) {
+      reject(new Error('Invalid teamName. Only alphanumeric characters are allowed.'));
+      return; // Return to avoid executing the database query
     }
+
+    const query = 'SELECT team_id, team_name FROM team WHERE team_name = ?';
+
+    db.all(query, [teamName], (err, rows) => {
+      if (err) {
+        console.error('Error in get_team_by_name:', err);
+        reject(err); // Reject with the database error
+      } else {
+        resolve(rows); // Resolve with the query result
+      }
+    });
   });
-}
+};
+module.exports.get_team_by_name = get_team_by_name;
+
+
+function get_team_by_id(teamid) {
+  console.log(`db.get_team_by_id(${teamid})})`)
+
+  return new Promise((resolve, reject) => {
+    if (isNaN(parseInt(teamid))) {
+      reject(new Error('Invalid teamId'));
+    }
+    const query = `SELECT team_id, team_name from team where team_id = ${teamid}`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      console.log(rows)
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      } else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+  );
+};
+module.exports.get_team_by_id = get_team_by_id;
+
 
 
  // Function to fetch data from the database based on the query parameter
- exportsObj.get_team_game_data = function(num, callback) {
+
+function get_team_game_data(teamid) {
   console.log('db.get_team_game_data()')
-  const query = `select Team, Player, Game, Opponent, Points, player_id,team_id from game_data where team_id = ${num} order by player, game;`;
-  console.log(query)
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      callback(null, rows)
+  return new Promise((resolve, reject) => {
+    if (isNaN(parseInt(teamid))) {
+      reject(new Error('Invalid teamId'));
     }
-  });
+    const query = `select Team, Player, Game, Opponent, Points, player_id,team_id from game_data where team_id = ${teamid} order by player, game;`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      } else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+  );
 }
-
-
-// At the bottom of the module, export the entire object
-module.exports = exportsObj;
+module.exports.get_team_game_data = get_team_game_data;

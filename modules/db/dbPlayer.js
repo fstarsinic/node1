@@ -1,64 +1,84 @@
 const sqlite3 = require('sqlite3').verbose();
 
-// Define all exports at the end of the module
-const exportsObj = {};
-
 // Open the SQLite database
 const db = new sqlite3.Database('mydatabase.db');
 
 
 // Function to fetch data from the database based on the query parameter
-exportsObj.get_players = function(callback) {
+async function get_players() {
   console.log('db.get_players()')
   const query = `SELECT * from player`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
+  console.log(query)
+  return new Promise((resolve, reject) => {
+      db.all(query, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
     }
-  });
-}
+  );
+};
+module.exports.get_players = get_players;
 
 // Function to fetch data from the database based on the query parameter
-exportsObj.get_player_by_id = function(id, callback) {
+async function get_player_by_id(id) {
   console.log('db.get_player_by_id()')
   const query = `SELECT * from player where id = ${id}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
+  console.log(query)
+  return new Promise((resolve, reject) => {
+      db.all(query, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
     }
-  });
-}
+  );
+};
+module.exports.get_player_by_id = get_player_by_id;
 
-exportsObj.get_players_by_team_name = function(teamName, callback) {
+async function get_players_by_team_name(teamName) {
   console.log('db.get_players_by_team_name()')
   const query = `select t.team_name, p.* from player p, team t where p.team_id = t.team_id and t.team_name =  '${teamName}'`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
+  console.log(query)
+  return new Promise((resolve, reject) => {
+      db.all(query, (err, rows) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, rows);
+        }
+      });
     }
-  });
-}
+  );
+};
+module.exports.get_players_by_team_name = get_players_by_team_name;
 
-exportsObj.get_players_by_team_id = function(teamId, callback) {
+
+async function get_team_by_id(num, callback) {
   console.log('db.get_players_by_team_id()')
   const query = `select t.team_name, p.* from player p, team t where p.team_id = t.team_id and t.team_id =  ${teamId}`;
-  db.all(query, (err, rows) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, rows);
+  console.log(query)
+  return new Promise((resolve, reject) => {
+      db.all(query, (err, rows) => {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, rows);
+        }
+      });
     }
-  });
-}
+  );
+};
+module.exports.get_team_by_id = get_team_by_id;
+
+
 
  // Function to fetch data from the database based on the query parameter
- exportsObj.get_player_stats = function(callback) {
+async function get_player_stats() {
   console.log('db.get_player_stats()')
   const query = `SELECT p.firstname, p.lastname, t.team_name, t.team_id, avg(points), avg(g.ORebounds+g.DRebounds) as Rebounds,avg(g.Assists),avg(g.Steals),avg(g.Blocks),avg(g.Turnovers),
   round(sum(g.TwoPointMade) *100 / sum(g.TwoPointattempted),2) as FieldGoalPct,
@@ -66,18 +86,22 @@ exportsObj.get_players_by_team_id = function(teamId, callback) {
   round(sum(g.FTMade) *100 /sum(g.FTAttempted),2) as FTPercent 
   FROM game_data g, player p, team t where g.player_id = p.id and g.team_id = t.team_id group by Player order by Player`;
   console.log(query)
-  db.all(query, (err, rows) => {
-    if (err) {
-      console.log(`error: ${err}`)
-      callback(err, null);
-    } else {
-      callback(null, rows);
-    }
-  });
-}
+  return new Promise((resolve, reject) => {
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  }
+  );
+};
+module.exports.get_player_stats = get_player_stats;
 
-exportsObj.get_player_data = function(playerId, callback) {
+async function get_player_data(playerId, callback) {
   console.log(`db.get_player_data(${playerId})`)
+
   const id = parseInt(playerId, 10);
 
   if (!Number.isInteger(id)) {
@@ -99,7 +123,5 @@ exportsObj.get_player_data = function(playerId, callback) {
     }
   });
 }
-
-// At the bottom of the module, export the entire object
-module.exports = exportsObj;
+module.exports.get_player_data = get_player_data;
 

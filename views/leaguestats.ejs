@@ -1,8 +1,8 @@
 <%- include('partials/header') %>
-<%- include('partials/highcharts') %>
 <%- include('partials/datatables') %>
 <%- include('partials/sidebar') %>
         
+
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -218,46 +218,10 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Backyard Classics - <div id="teamname"></div></h1>
-                    <span hidden="true" id="currentTeamPlaceholder"></span>
+                    <h1 class="h3 mb-4 text-gray-800">Backyard Classics - League Standings</h1>                    
+                    <table id="leaguestats_container" class="display" cellspacing="0" width="100%"></table>
+                    <script src="/js/leaguestats_datatable.js"></script>
 
-                 
-                    <!-- Links to increment and decrement the "team" query string parameter -->
-                    |||
-                    <a href="javascript:void(0);" onclick="updateQueryStringValue(-1)">Previous Team</a>
-                    <nbsp></nbsp>|<nbsp></nbsp> 
-                    <a href="javascript:void(0);" onclick="updateQueryStringValue(1)">Next Team</a>
-                    |||
-                    <!-- JavaScript code to get the current "team" value from the query string -->
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            const queryParams = new URLSearchParams(window.location.search);
-                            const currentTeam = queryParams.get('team') || '1';
-                            document.getElementById('currentTeamPlaceholder').textContent = currentTeam;
-
-                            window.updateQueryStringValue = function (change) {
-                                const newTeam = parseInt(currentTeam) + change;
-                                const url = new URL(window.location.href);
-                                url.searchParams.set('team', newTeam);
-                                window.location.href = url.toString();
-                            };
-                        });
-                    </script>               
-
-                    <table id="scorecard_container" class="display" width="100%"></table>
-                    <script src="/js/scorecard.js"></script>
-
- 
-                    
-                    <figure class="highcharts-figure">
-                        <div id="container"></div>
-                        <p class="highcharts-description">
-                            Team data - Points per game by player.
-                        </p>
-                    </figure>
-
-                    <script src="/js/player_packed_bubble.js"></script>
-                
                 </div>
                 <!-- /.container-fluid -->
 

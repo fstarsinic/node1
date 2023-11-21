@@ -6,49 +6,7 @@ const multer = require('multer');
 const csvParser = require('csv-parser');
 const upload = multer({ storage: multer.memoryStorage() });
 
-/**
- * @swagger
- /upload:
-    post:
-      tags:
-      - upload
-      summary: uploads a file
-      description: uploads a file. Will be expanded later.
-      operationId: handleFileUpload
-      parameters:
-      - name: additionalMetadata
-        in: query
-        description: Additional Metadata
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/upload_body'
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-        "400":
-          description: unsuccessful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-      - teamgame_auth:
-        - write:teams
-        - read:teams
-      x-swagger-router-controller: fileUploadController
-*/
-function handleFileUpload(req, res) {
+async function handleFileUpload(req, res) {
   console.log('handleFileUpload called')
   console.log(req.csvFile)
   if (!req.files || !req.files.csvFile) {
@@ -79,22 +37,5 @@ function handleFileUpload(req, res) {
   fs.writeFile(filePath, fileBuffer, (err) => {
     return res.status(200).send({message: 'Successful upload.'});
   });
-
-/*  // Save the file to disk
-  fs.writeFile(filePath, fileBuffer, (err) => {
-    if (err) {
-        console.error(err);
-        res.redirect('/pages/fileUploadResult?msg=fail');
-    } else {
-        res.redirect('/pages/fileUploadResult?msg=success');
-    }
-    return res.status(200).send('File uploaded successfully');
-
-  });
-*/
-
 }
-
-module.exports = {
-  handleFileUpload,
-};
+module.exports.handleFileUpload = handleFileUpload;

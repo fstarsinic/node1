@@ -1,134 +1,155 @@
 // gameController.js
-const bus = require('../modules/bus/busGame')
+const gameSvc = require('../modules/svc/gameService')
 
-/**
- * @swagger
- * /api/game:
- *   get:
- *     summary: Get a list of games
- *     description: Retrieve a list of games from the database.
- *     responses:
- *       200:
- *         description: A list of games.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 - $ref: '#/components/schemas/game'
- */
-exports.getAllgames = (req, res) => {
+
+async function getLeagueStandings(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
-  console.log('/api/game endpoint')
-  bus.get_games((err, rows) => {
-    if (rows.length == 0) {
+  console.log('/api/game/agg/standings endpoint')
+  try{
+    rows = await gameSvc.getLeagueStandings();
+    console.log(rows);
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found`});
+      return;
+    }
+    res.json(rows);
+    }
+    catch (error) {
+      res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+    }
+  };
+module.exports.getLeagueStandings = getLeagueStandings;
+
+
+async function getAllGamesDeep(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/game/deep endpoint')
+  try{
+    const rows = gameSvc.getAllGamesDeep();
+    console.log(`rows: ${rows}`);
+
+    if (!rows?.length) {
       res.status(404).json({ error: `Results Not Found`});
       return;
     }    
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-      res.json(rows);
-    });      
+    res.json(rows)
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
 };
+module.exports.getAllGamesDeep = getAllGamesDeep;    
 
-/**
- * @swagger
- * /api/game/{gameId}:
- *   get:
- *     summary: Get a game by game ID
- *     description: Retrieve a game's information by their game ID.
- *     parameters:
- *       - in: path
- *         name: gameId
- *         description: The ID of the game to retrieve.
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       '200':
- *         description: Successfully retrieved game information.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                   description: The ID of the game.
- *                 name:
- *                   type: string
- *                   description: The name of the game.
- *       '404':
- *         description: game not found.
- */
-exports.getGameById = (req, res) => {
+
+async function getAllGames(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/game endpoint');
+  
+  try {
+    const rows = await gameSvc.getAllGames();
+    console.log(`controller.rows:`);
+    console.log(rows);
+
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found` });
+    } else {
+      res.json(rows);
+    }
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
+};
+module.exports.getAllGames = getAllGames;
+
+async function getGameById(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const gameid = req.params.id;
   console.log(`/api/game/:${gameid} endpoint`)  
-  bus.get_game_by_id(gameid, (err, rows) => {
-    if (rows.length == 0) {
-      res.status(404).json({ error: `Results Not Found for ${gameid}`});
-      return;
-    }
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(rows);
-    });      
+  try{
+    rows = await gameSvc.getGameById(gameid);
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found for ${gameid}`});
+        return;
+      }
+      res.json(rows);
+  }      
+  catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
 };
+module.exports.getGameById = getGameById;
 
 
-exports.getGamesByTeamName = (req, res) => {
+async function getGamesByTeamId(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/game/FindByTeamId/:${teamId} endpoint`)
+  try{
+    rows = await gameSvc.getGamesByTeamId(teamId);
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found for ${teamId}`});
+        return;
+      }
+      res.json(rows);
+  }
+  catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
+};
+module.exports.getGamesByTeamId = getGamesByTeamId;
+
+
+async function getGamesByTeamName(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamName = req.params.teamName;
   console.log(`/api/game/FindByName/:${teamName} endpoint`)
-  bus.get_games_by_team_name(teamName, (err, rows) => {
-    if (rows.length == 0) {
-      res.status(404).json({ error: `Results Not Found for ${teamName}`});
-      return;
-    }
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(rows);
-    });
+  try{
+    rows = await gameSvc.getGamesByTeamName(teamName);
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found for ${teamName}`});
+        return;
+      }
+      res.json(rows);
+  }
+  catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
 };
+module.exports.getGamesByTeamName = getGamesByTeamName;
 
-exports.getGameWinner = (req, res) => {
+
+async function getGameWinner(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
-  const gameId = req.params.gameId;
+  const gameId = req.params.id;
   console.log(`/api/game/winner/:${gameId} endpoint`)
-  bus.get_game_winner(gameId, (err, rows) => {
-    if (rows.length == 0) {
-      res.status(404).json({ error: `Results Not Found for ${gameId}`});
-      return;
-    }
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(rows);
-    });
-}
+  try{
+    rows = await gameSvc.getGameWinner(gameId);
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found for ${gameId}`});
+        return;
+      }
+      res.json(rows);
+  }
+  catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
+};
+module.exports.getGameWinner = getGameWinner;
 
-exports.getGameResults = (req, res) => {
+
+async function getGameResults(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
-  const gameId = req.params.gameId;
+  const gameId = req.params.id;
   console.log(`/api/game/results/:${gameId} endpoint`)
-  bus.get_game_results(gameId, (err, rows) => {
-    if (rows.length == 0) {
-      res.status(404).json({ error: `Results Not Found for ${gameId}`});
-      return;
-    }
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(rows);
-    });
-}
-
+  try{
+    rows = await gameSvc.getGameResults(gameId);
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found for ${gameId}`});
+        return;
+      }
+      res.json(rows);
+  }
+  catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
+};
+module.exports.getGameResults = getGameResults;
