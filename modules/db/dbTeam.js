@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const errs = require('../errors/customErrors');
 
 // Define all exports at the end of the module
 const exportsObj = {};
@@ -72,14 +73,14 @@ function get_team_by_id(teamid) {
 
   return new Promise((resolve, reject) => {
     if (isNaN(parseInt(teamid))) {
-      reject(new Error('Invalid teamId'));
+      reject(new errs.DataValidationError('Invalid teamId'));
     }
     const query = `SELECT team_id, team_name from team where team_id = ${teamid}`;
     console.log(query)
     db.all(query, (err, rows) => {
       console.log(rows)
       if (err) {
-        reject(err); // Reject the Promise with an error
+        reject(new errs.DatabaseError(err.message)); // Reject the Promise with an error
       } else {
         resolve(rows); // Resolve the Promise with the result
       }

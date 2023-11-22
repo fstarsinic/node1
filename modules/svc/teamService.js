@@ -1,7 +1,7 @@
 const dbGame = require('../db/dbGame');
 const dbTeam = require('../db/dbTeam');
 const svcGame = require('../svc/gameService');
-
+const errs = require('../errors/customErrors');
 
 async function getAllTeams() {
     try {
@@ -31,13 +31,17 @@ module.exports.getTeams = getTeams;
 
 async function getTeamById(teamId) {
     try {
+        console.log('getTeamById')
         console.log(`svc.getTeamById(${teamId})`)
         const team = await dbTeam.get_team_by_id(teamId); // Assuming a database function to fetch a game
-        console.log(`svc.team`)
-        console.log(typeof team)
-        return team;
+        console.log(team.length)
+        if (team?.length == 0) {
+            throw new errs.ResourceNotFoundError('No team with that Id');
+        } else {
+            return team;
+        }
     } catch (error) {
-        throw new Error('Failed to fetch team');
+        throw error;
     }
 }
 module.exports.getTeamById = getTeamById;
@@ -78,6 +82,9 @@ async function getTeamScorecard(teamId) {
       console.log('Success getting bus data');
       const scorecard = [];
       const team = await dbTeam.get_team_by_id(teamId);
+      if (team.length == 0) {
+        throw new errs.ResourceNotFoundError(`Results Not Found for ${teamId}`);
+      }
       const team_name = team[0].team_name;
       
       for (const game of games) {
