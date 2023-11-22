@@ -75,9 +75,10 @@ function get_team_by_id(teamid) {
     if (isNaN(parseInt(teamid))) {
       reject(new errs.DataValidationError('Invalid teamId'));
     }
-    const query = `SELECT team_id, team_name from team where team_id = ${teamid}`;
+    //const query = `SELECT team_id, team_name from team where team_id = ${teamid}`;
+    const query = `SELECT team_id, team_name from team where team_id = ?`;
     console.log(query)
-    db.all(query, (err, rows) => {
+    db.all(query, [teamid], (err, rows) => {
       console.log(rows)
       if (err) {
         reject(new errs.DatabaseError(err.message)); // Reject the Promise with an error
