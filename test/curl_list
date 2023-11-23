@@ -6,4 +6,6 @@ http://localhost/api/player/stats/playerStats
 http://localhost/api/game/agg/standings
 http://localhost/api/team/scorecard/5
 http://localhost/api/team/gameData/4
+http://localhost/api/game/agg/points
+http://localhost/api/game/agg/gamedata
 

@@ -6,6 +6,86 @@ const exportsObj = {};
 // Open the SQLite database
 const db = new sqlite3.Database('mydatabase.db');
 
+async function get_acc_game_data() { 
+  console.log('db.get_acc_game_data()')
+
+  return new Promise((resolve, reject) => {
+    const query = `WITH ShotSummary AS (
+      SELECT
+          game_id,
+          SUM(TwoPointAttempted) AS total_two_point_attempts,
+          SUM(TwoPointMade) AS total_two_point_made,
+          SUM(ThreePointAttempted) AS total_three_point_attempts,
+          SUM(ThreePointMade) AS total_three_point_made,
+          SUM(FTAttempted) AS total_ft_attempts,
+          SUM(FTMade) AS total_ft_made
+      FROM
+          game_data
+      GROUP BY
+          game_id
+      ORDER BY
+          game_id
+  )
+  SELECT
+      game_id,
+      SUM(total_two_point_attempts) OVER (ORDER BY game_id) AS accumulated_two_point_attempts,
+      SUM(total_two_point_made) OVER (ORDER BY game_id) AS accumulated_two_point_made,
+      SUM(total_three_point_attempts) OVER (ORDER BY game_id) AS accumulated_three_point_attempts,
+      SUM(total_three_point_made) OVER (ORDER BY game_id) AS accumulated_three_point_made,
+      SUM(total_ft_attempts) OVER (ORDER BY game_id) AS accumulated_ft_attempts,
+      SUM(total_ft_made) OVER (ORDER BY game_id) AS accumulated_ft_made,
+      CASE
+          WHEN SUM(total_two_point_attempts) OVER (ORDER BY game_id) = 0 THEN 0
+          ELSE ROUND((SUM(total_two_point_made) OVER (ORDER BY game_id) * 100.0) / SUM(total_two_point_attempts) OVER (ORDER BY game_id), 2)
+      END AS accumulated_two_point_shooting_percentage,
+      CASE
+          WHEN SUM(total_three_point_attempts) OVER (ORDER BY game_id) = 0 THEN 0
+          ELSE ROUND((SUM(total_three_point_made) OVER (ORDER BY game_id) * 100.0) / SUM(total_three_point_attempts) OVER (ORDER BY game_id), 2)
+      END AS accumulated_three_point_shooting_percentage,
+      CASE
+          WHEN SUM(total_ft_attempts) OVER (ORDER BY game_id) = 0 THEN 0
+          ELSE ROUND((SUM(total_ft_made) OVER (ORDER BY game_id) * 100.0) / SUM(total_ft_attempts) OVER (ORDER BY game_id), 2)
+      END AS accumulated_ft_shooting_percentage
+  FROM
+      ShotSummary;  
+  `;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      //console.log(rows)
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      }
+      else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  });
+}
+module.exports.get_acc_game_data = get_acc_game_data;
+
+async function get_points_per_game() {
+  console.log('db.get_points_by_game_id()')
+
+  return new Promise((resolve, reject) => {
+    const query = `SELECT game_id, sum(points) as points from game_data group by game_id`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      console.log(`db.rows`)  
+      console.log(rows)
+      if (err) {
+        console.log('rejecting')
+        reject(err); // Reject the Promise with an error
+      } else {
+        console.log('resolving')
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+
+  );
+}
+module.exports.get_points_per_game = get_points_per_game;
+
 
 async function get_games_deep() {
   console.log('db.get_games_deep()')

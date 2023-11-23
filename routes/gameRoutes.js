@@ -22,6 +22,10 @@ router.get('/find/deep', gameController.getAllGamesDeep);
 
 router.get('/agg/standings/', gameController.getLeagueStandings);
 
+router.get('/agg/points/', gameController.getPointsPerGame);
+
+router.get('/agg/gamedata', gameController.getAccGameData);
+
 // Export the router
 module.exports = router;
 

@@ -30,12 +30,6 @@ Highcharts.chart('hichart_teamstats', {
     series: [{
         name: 'Points',
         data: [36.0, 48, 32, 27, 32]
-    }, {
-        name: 'Rebounds',
-        data: [17, 21, 12, 16, 10]
-    }, {
-        name: 'Turnovers',
-        data: [7, 2, 4, 9, 3]
     }]
 });
 

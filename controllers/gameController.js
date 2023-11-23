@@ -2,6 +2,45 @@
 const gameSvc = require('../modules/svc/gameService')
 
 
+async function getAccGameData(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/game/agg/agg endpoint')
+  try{
+    rows = await gameSvc.getAccGameData();
+    console.log(`gamecontroller.rows:`);
+    console.log(rows);
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found`});
+      return;
+    }
+    res.json(rows);
+    }
+    catch (error) {
+      res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+    }
+  }
+  module.exports.getAccGameData = getAccGameData;
+
+
+async function getPointsPerGame(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/game/agg/points endpoint')
+  try{
+    rows = await gameSvc.getPointsPerGame();
+    console.log(`gamecontroller.rows:`);
+    console.log(rows);
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found`});
+      return;
+    }
+    res.json(rows);
+    }
+    catch (error) {
+      res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+    }
+  }
+  module.exports.getPointsPerGame = getPointsPerGame;
+
 async function getLeagueStandings(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/game/agg/standings endpoint')
