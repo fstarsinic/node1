@@ -6,6 +6,29 @@ const exportsObj = {};
 // Open the SQLite database
 const db = new sqlite3.Database('mydatabase.db');
 
+async function get_points_by_team() {
+  console.log('db.get_points_by_team()')
+
+  return new Promise((resolve, reject) => {
+    const query = `select sum(points) as points, player, team from game_data group by team, player order by team, points desc, player`;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      console.log(`db.rows`)  
+      console.log(rows)
+      if (err) {
+        console.log('rejecting')
+        reject(err); // Reject the Promise with an error
+      } else {
+        console.log('resolving')
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+
+  );
+}
+module.exports.get_points_by_team = get_points_by_team;
+
 async function get_acc_game_data() { 
   console.log('db.get_acc_game_data()')
 

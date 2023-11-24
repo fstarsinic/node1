@@ -18,13 +18,17 @@ router.get('/winner/:id', gameController.getGameWinner);
 
 router.get('/results/:id', gameController.getGameResults);
 
-router.get('/find/deep', gameController.getAllGamesDeep);
+router.get('/find/deep', gameController.getGamesDeep);
 
 router.get('/agg/standings/', gameController.getLeagueStandings);
 
 router.get('/agg/points/', gameController.getPointsPerGame);
 
 router.get('/agg/gamedata', gameController.getAccGameData);
+
+//router.get('/agg/teams', gameController.getTeamGameData);
+
+router.get('/agg/pointsByTeam', gameController.getPointsByTeam);
 
 // Export the router
 module.exports = router;

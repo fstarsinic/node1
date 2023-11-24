@@ -11,9 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(`/api/game/agg/gamedata`)
         const gameid = data.map((item) => item.game_id);
         const pct = data.map((item) => item.accumulated_two_point_shooting_percentage);
+        const pct3 = data.map((item) => item.accumulated_three_point_shooting_percentage);
+        const ftpct = data.map((item) => item.accumulated_ft_shooting_percentage);
   
         console.log(`game: ${gameid}`)
         console.log(`points: ${pct}`)
+        console.log(`points: ${pct3}`)
+        console.log(`points: ${ftpct}`)
 
         Highcharts.chart('hichart_teamstats_b', {
             chart: {
@@ -45,8 +49,16 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             series: [{
                 name: 'Shooting Pct.',
-                data: pct
-            }]
+                data: pct},
+                {
+                name: '3pt Shooting Pct.',
+                data: pct3
+                },
+                {
+                name: 'FT Shooting Pct.',
+                data: ftpct
+                }
+            ]
         });
     });
 });

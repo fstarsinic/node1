@@ -8,4 +8,5 @@ http://localhost/api/team/scorecard/5
 http://localhost/api/team/gameData/4
 http://localhost/api/game/agg/points
 http://localhost/api/game/agg/gamedata
+http://localhost/api/game/agg/pointsByTeam
 

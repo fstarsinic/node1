@@ -1,6 +1,22 @@
 // playerController.js
 const playerSvc = require('../modules/svc/playerService')
 
+async function getPointsByTeam(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/player/points/:${teamId} endpoint`)
+  try {
+    const rows = await playerSvc.getPointsByTeam(teamId);
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found for ${teamId}`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch teams: ${error.message}` });
+  }
+}
+
 async function getAllPlayers(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/player endpoint');

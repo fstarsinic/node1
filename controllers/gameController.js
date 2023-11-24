@@ -1,6 +1,20 @@
 // gameController.js
 const gameSvc = require('../modules/svc/gameService')
 
+async function getPointsByTeam (req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  try {
+    const rows = await gameSvc.getPointsByTeam();
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch data` });
+  }
+}
+module.exports.getPointsByTeam = getPointsByTeam;
 
 async function getAccGameData(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
@@ -60,11 +74,11 @@ async function getLeagueStandings(req, res) {
 module.exports.getLeagueStandings = getLeagueStandings;
 
 
-async function getAllGamesDeep(req, res) {
+async function getGamesDeep(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/game/deep endpoint')
   try{
-    const rows = gameSvc.getAllGamesDeep();
+    const rows = gameSvc.getGamesDeep();
     console.log(`rows: ${rows}`);
 
     if (!rows?.length) {
@@ -76,7 +90,7 @@ async function getAllGamesDeep(req, res) {
     res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
   }
 };
-module.exports.getAllGamesDeep = getAllGamesDeep;    
+module.exports.getGamesDeep = getGamesDeep;    
 
 
 async function getAllGames(req, res) {

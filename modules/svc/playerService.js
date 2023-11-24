@@ -1,5 +1,16 @@
 const dbPlayer = require('../db/dbPlayer');
 
+async function getPointsByTeam(teamId) {
+    try {
+        console.log('svc.getPointsByTeam()')
+        const points = await dbPlayer.get_points_by_team(teamId); // Assuming a database function to fetch games
+        console.log(`svc.points`)
+        console.log(points)
+        return points;
+    } catch (error) {
+        throw new Error(`Failed to fetch points: ${error.message}`);
+    }
+}
 
 async function getAllTeams() {
     try {

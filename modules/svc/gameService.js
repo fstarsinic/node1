@@ -4,6 +4,24 @@ const errs = require('../errors/customErrors');
 
 const exportsObj = {};
 
+async function getPointsByTeam() {
+    try {
+        console.log('svc.getPointsByTeam()')
+        const points = await dbGame.get_points_by_team(); // Assuming a database function to fetch games
+        console.log(`svc.points`)
+        console.log(points)
+        points.forEach((row) => {
+            console.log(row)
+            const { game_id, Team, Points } = row;
+            console.log(`game_id: ${game_id}, team: ${Team}, points: ${Points}`)
+        });
+        return points;
+    } catch (error) {
+        throw new Error(`Failed to fetch points: ${error.message}`);
+    }
+}
+module.exports.getPointsByTeam = getPointsByTeam;
+
 async function getAccGameData() {
     try {
         console.log('svc.getAccGameData()')
