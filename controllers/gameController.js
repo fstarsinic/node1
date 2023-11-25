@@ -1,6 +1,26 @@
 // gameController.js
 const gameSvc = require('../modules/svc/gameService')
 
+async function getPointsByGame(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/game/agg/points endpoint')
+  try{
+    rows = await gameSvc.getPointsByGame();
+    console.log(`gamecontroller.rows:`);
+    console.log(rows);
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found`});
+      return;
+    }
+    res.json(rows);
+    }
+    catch (error) {
+      res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+    }
+  }
+  module.exports.getPointsByGame = getPointsByGame;
+  
+
 async function getPointsByTeam (req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   try {

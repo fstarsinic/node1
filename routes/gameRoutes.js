@@ -30,6 +30,8 @@ router.get('/agg/gamedata', gameController.getAccGameData);
 
 router.get('/agg/pointsByTeam', gameController.getPointsByTeam);
 
+router.get('/agg/pointsByGame', gameController.getPointsByGame);
+
 // Export the router
 module.exports = router;
 
