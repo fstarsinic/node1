@@ -1,4 +1,22 @@
 /* Reset some default browser styles */
+
+@media screen and (max-width: 600px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url('/images/UIcomponents/bcb.png');
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 50px;
+    padding: 0;
+    position: relative;
+  }
+}
+
+
+
 * {
     margin: 0;
     padding: 0;
@@ -53,7 +71,7 @@
   body {
     line-height: 1.6;
     font-family: 'Crete Round', serif;
-    
+
   }
 
 
@@ -96,10 +114,10 @@
     flex-direction: column;
     justify-content: center;
     background-image: url('/images/UIcomponents/bcb.png');
-    background-size: 350px 350px;
+    background-size: 300px 300px;
     background-repeat: no-repeat;
     background-position: center;
-    height: 200px;
+    height: 150px;
     padding: 0;
     position: relative;
   }
@@ -140,26 +158,11 @@
     position: relative;
   }
 
-  .img-container {
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .img-container img {
-    max-width: 100%;
-    max-height: 100%;
-  }
 
 
 
   .bottom-container {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -170,3 +173,27 @@
     position: relative;
   }
 
+
+
+ 
+
+
+
+
+  /* HEY DLYAN MAKE THE BIG CIRCLES IN THE MIDDLE TO BE LINKS FOR TEAMS STATS AND SCHEUDLE OR WAHTEVER W COOL ANIMATION */
+
+
+
+
+  .teams-carousel {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    align-items: center;
+  }
+
+  .teams-carousel img {
+    width: 100%; /* Make the images take the full width of the circle */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure images don't have extra space below */
+  }
