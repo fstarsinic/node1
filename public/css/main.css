@@ -101,13 +101,13 @@ input, select, textarea {
 	body, input, textarea, select {
 		font-family: 'Source Sans Pro';
 		font-weight: 300;
-		color: #5d5d5d;
+		color: black;
 		font-size: 14pt;
 		line-height: 1.75em;
 	}
 
 	strong, b {
-		color: #252122;
+		color: black;
 		font-weight: 400;
 	}
 
@@ -1614,7 +1614,7 @@ input, select, textarea {
 		cursor: pointer;
 		border: 0;
 		border-radius: 5px;
-		background: #d52349;
+		background: #e53359;
 		color: #fff !important;
 		font-weight: 700;
 		outline: 0;
@@ -1648,7 +1648,7 @@ input, select, textarea {
 		input[type="reset"].alt,
 		button.alt,
 		.button.alt {
-			background: #252122;
+			background: blue;
 		}
 
 			input[type="button"].alt:hover,
@@ -1656,7 +1656,7 @@ input, select, textarea {
 			input[type="reset"].alt:hover,
 			button.alt:hover,
 			.button.alt:hover {
-				background: #353132;
+				background: blue;
 			}
 
 			input[type="button"].alt:active,
@@ -2181,6 +2181,7 @@ input, select, textarea {
 	#banner {
 		background: #CCE8F4 url("/images/UIcomponents/squadpic.JPG");
 		background-position: center 45%;
+		height: 55vh;
 		background-size: cover;
 		background-repeat: no-repeat;
 		text-align: center;
@@ -2190,7 +2191,8 @@ input, select, textarea {
 	}
 
 		#banner header {
-			background-color: rgba(34, 30, 31, 0.98);
+
+			background-size: cover;
 			display: inline-block;
 			padding: 2.5em 5em;
 			border-radius: 5px;
@@ -2245,7 +2247,7 @@ input, select, textarea {
 		}
 
 		#intro .first {
-			background-image: url('/images/UIcomponents/BWCtoon.png'); /* Set the image path */
+			background-image: url('/images/UIcomponents/BCBsummerball.png'); /* Set the image path */
 		}
 		
 		#intro .middle {
@@ -2253,7 +2255,7 @@ input, select, textarea {
 		}
 		
 		#intro .last {
-			background-image: url('/images/UIcomponents/BCBsummerball.png'); /* Set the image path */
+			background-image: url('/images/UIcomponents/BWCtoon.png'); /* Set the image path */
 		}
 		
 		#intro .button {
@@ -2335,7 +2337,25 @@ input, select, textarea {
 		background-size: cover;
 		background-position: center;
 		height: 30vh;
+	}
 
+	#footer .container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	.image-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.image-wrapper img {
+		width: 100px;
+		height: 100px;
+		margin: 0 5px; /* Adjust the spacing between images */
 	}
 
 /* Copyright */
