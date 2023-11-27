@@ -1,5 +1,5 @@
 // gameController.js
-const gameSvc = require('../modules/svc/gameService')
+const gameSvc = require('../svc/gameService')
 
 async function getPointsByGame(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type

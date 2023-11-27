@@ -1,7 +1,7 @@
 const dbGame = require('../db/dbGame');
 const dbTeam = require('../db/dbTeam');
 const svcGame = require('../svc/gameService');
-const errs = require('../errors/customErrors');
+const errs = require('../modules/errors/customErrors');
 
 async function getAllTeams() {
     try {

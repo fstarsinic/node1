@@ -1,5 +1,5 @@
 // playerController.js
-const playerSvc = require('../modules/svc/playerService')
+const playerSvc = require('../svc/playerService')
 //const bodyParser = require('body-parser');
 
 async function getPlayerByName(req, res) {

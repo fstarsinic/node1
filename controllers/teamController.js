@@ -1,5 +1,5 @@
 // teamController.js
-const teamSvc = require('../modules/svc/teamService')
+const teamSvc = require('../svc/teamService')
 const errs = require('../modules/errors/customErrors');
 
 async function getAllteams(req, res) {

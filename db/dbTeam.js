@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const errs = require('../errors/customErrors');
+const errs = require('../modules/errors/customErrors');
 
 // Define all exports at the end of the module
 const exportsObj = {};
@@ -9,7 +9,7 @@ const exportsObj = {};
 const path = require('path');
 const moduleFilePath = __filename;
 const moduleDirectory = path.dirname(moduleFilePath);
-const dbPath = path.join(moduleDirectory, '../../mydatabase.db');
+const dbPath = path.join(moduleDirectory, '../data/mydatabase.db');
 console.log(`dbPath: ${dbPath}`);
 const db = new sqlite3.Database(dbPath);
 
