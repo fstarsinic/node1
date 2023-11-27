@@ -1,7 +1,33 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Open the SQLite database
-const db = new sqlite3.Database('mydatabase.db');
+// Determine the directory where the module/script is located
+const path = require('path');
+const moduleFilePath = __filename;
+const moduleDirectory = path.dirname(moduleFilePath);
+const dbPath = path.join(moduleDirectory, '../../mydatabase.db');
+console.log(`dbPath: ${dbPath}`);
+const db = new sqlite3.Database(dbPath);
+
+async function get_player_by_name(firstname, lastname) {
+  console.log('db.get_player_by_name()')
+
+  //const query = `SELECT * from player where firstname = '${firstname}' and lastname = '${lastname}'`;
+  const query = `SELECT * from player where firstname = ? and lastname = ?`;
+  console.log(query)
+  return new Promise((resolve, reject) => {
+      db.all(query, [firstname, lastname], (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    }
+  );
+}
+module.exports.get_player_by_name = get_player_by_name;
+
 
 
 // Function to fetch data from the database based on the query parameter

@@ -18,7 +18,7 @@ router.get('/stats/playerStats', playerController.getPlayerStats);
 
 router.get('/stats/playerDataById/:id', playerController.getPlayerDataById);
 
-
+router.get('/search/findByPlayerName', playerController.getPlayerByName);
 
 // Export the router
 module.exports = router;

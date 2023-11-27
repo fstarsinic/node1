@@ -1,6 +1,28 @@
 // playerController.js
 const playerSvc = require('../modules/svc/playerService')
 
+async function getPlayerByName(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const { firstname, lastname } = req.query;
+  console.log(`/api/player/getPlayerByName:${firstname}/:${lastname} endpoint`)
+  try {
+    const rows = await playerSvc.getPlayerByName(firstname, lastname);
+    console.log('controller.rows')
+    console.log(rows)
+    if (!rows) {
+      res.status(404).json({ error: `Results Not Found for ${firstname} ${lastname}`});
+      return;
+    }
+    console.log('controller')
+    console.log(rows)
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch teams: ${error.message}` });
+  }
+}
+module.exports.getPlayerByName = getPlayerByName;
+
+
 async function getPointsByTeam(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamId = req.params.id;

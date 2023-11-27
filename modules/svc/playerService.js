@@ -1,4 +1,30 @@
 const dbPlayer = require('../db/dbPlayer');
+const dbTeam = require('../db/dbTeam');
+
+async function getPlayerByName(firstname, lastname) {
+    try {
+        console.log(`svc.getPlayerByName(${firstname}, ${lastname})`)
+        const player = await dbPlayer.get_player_by_name(firstname, lastname); // Assuming a database function to fetch a game
+        console.log(`getting player`)
+        console.log(player)
+        playername = player[0].name;
+        playerteam = player[0].team_id;
+
+        const team = await dbTeam.get_team_by_id(playerteam);
+        console.log(`getting team`)
+        console.log(team)
+        teamname = team[0].team_name;
+        console.log(teamname)
+        console.log(playername) 
+        upperPlayer = playername.toUpperCase();
+        console.log(upperPlayer)
+        return {'player': upperPlayer, 'team': teamname};
+    } catch (error) {
+        throw new Error('Failed to fetch player');
+    }
+}
+module.exports.getPlayerByName = getPlayerByName;
+
 
 async function getPointsByTeam(teamId) {
     try {

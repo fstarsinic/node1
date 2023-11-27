@@ -5,7 +5,13 @@ const errs = require('../errors/customErrors');
 const exportsObj = {};
 
 // Open the SQLite database
-const db = new sqlite3.Database('mydatabase.db');
+// Determine the directory where the module/script is located
+const path = require('path');
+const moduleFilePath = __filename;
+const moduleDirectory = path.dirname(moduleFilePath);
+const dbPath = path.join(moduleDirectory, '../../mydatabase.db');
+console.log(`dbPath: ${dbPath}`);
+const db = new sqlite3.Database(dbPath);
 
 async function get_all_teams() {
   console.log('db.get_all_teams()')

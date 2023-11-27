@@ -4,7 +4,13 @@ const sqlite3 = require('sqlite3').verbose();
 const exportsObj = {};
 
 // Open the SQLite database
-const db = new sqlite3.Database('mydatabase.db');
+// Determine the directory where the module/script is located
+const path = require('path');
+const moduleFilePath = __filename;
+const moduleDirectory = path.dirname(moduleFilePath);
+const dbPath = path.join(moduleDirectory, '../../mydatabase.db');
+console.log(`dbPath: ${dbPath}`);
+const db = new sqlite3.Database(dbPath);
 
 async function get_points_by_game() {
   console.log('db.get_points_by_game()')
