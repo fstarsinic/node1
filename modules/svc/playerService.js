@@ -25,6 +25,19 @@ async function getPlayerByName(firstname, lastname) {
 }
 module.exports.getPlayerByName = getPlayerByName;
 
+async function addPlayer(firstName, lastName, active, injured, playerNumber) {
+    try {
+        console.log(`svc.addPlayer(${firstName}, ${lastName}, ${active}, ${injured}, ${playerNumber})`)
+        const player = await dbPlayer.add_player(firstName, lastName, active, injured, playerNumber); // Assuming a database function to fetch a game
+        console.log(`svc.player`)
+        console.log(player)
+        return player;
+    } catch (error) {
+        throw new Error('Failed to fetch player');
+    }
+}
+module.exports.addPlayer = addPlayer;
+
 
 async function getPointsByTeam(teamId) {
     try {

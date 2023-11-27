@@ -28,7 +28,30 @@ async function get_player_by_name(firstname, lastname) {
 }
 module.exports.get_player_by_name = get_player_by_name;
 
+async function add_player(firstName, lastName, active, injured, playerNumber) {
+  console.log(`'db.add_player(${firstName}, ${lastName}, ${active}, ${injured}, ${playerNumber})')'`)
+  return new Promise((resolve, reject) => {
+    parmas = [firstName, lastName, active, injured, playerNumber]
+    console.log(parmas)
+    const sql = `INSERT INTO player (firstname, lastname, active, injured, player_number) VALUES (?, ?, ?, ?, ?)`;  
+    console.log(sql)
+    db.run(sql, function (err) {
+        if (err) {
+            console.log(err);
+            //db.close();
+            reject(err);
+        } else {
+            // Get the last inserted row's primary key
+            const lastInsertedId = this.lastID;
+            console.log(`A row has been inserted with rowid ${lastInsertedId}`);
+            //db.close();
 
+            // Resolve the Promise with the primary key
+            resolve(lastInsertedId);
+        }
+    });
+});} 
+module.exports.add_player = add_player;
 
 // Function to fetch data from the database based on the query parameter
 async function get_players() {
