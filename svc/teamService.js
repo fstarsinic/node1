@@ -33,7 +33,7 @@ async function getTeamById(teamId) {
     try {
         console.log('getTeamById')
         console.log(`svc.getTeamById(${teamId})`)
-        const team = await dbTeam.get_team_by_id(teamId); // Assuming a database function to fetch a game
+        const team = await dbTeam.get_team_by_id(teamId); // Assuming a database function to fetch a team
         console.log(team.length)
         if (team?.length == 0) {
             throw new errs.ResourceNotFoundError('No team with that Id');
@@ -49,7 +49,7 @@ module.exports.getTeamById = getTeamById;
 async function getTeamByName(teamName) {
     try {
         console.log(`svc.getTeamByName(${teamName})`)
-        const team = await dbTeam.get_team_by_name(teamName); // Assuming a database function to fetch a game
+        const team = await dbTeam.get_team_by_name(teamName); // Assuming a database function to fetch a team
         console.log(`svc.team`)
         console.log(team)
         return team;
