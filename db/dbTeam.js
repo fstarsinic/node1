@@ -82,7 +82,7 @@ function get_team_by_id(teamid) {
       reject(new errs.DataValidationError('Invalid teamId'));
     }
     //const query = `SELECT team_id, team_name from team where team_id = ${teamid}`;
-    const query = `SELECT team_id, team_name from team where team_id = ?`;
+    const query = `SELECT team_id, team_name, logo from team where team_id = ?`;
     console.log(query)
     db.all(query, [teamid], (err, rows) => {
       console.log(rows)
