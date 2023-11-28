@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
-
+const bodyParser = require('body-parser');
 
 const router = express.Router();
 
@@ -21,6 +21,14 @@ app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'");
   next();
 });
+
+app.use((req, res, next) => {
+  console.log('Request Origin:', req.headers.origin);
+  next();
+});
+
+// Middleware to parse form data
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // Define a middleware function to set the 'Content-Type' header for JavaScript files

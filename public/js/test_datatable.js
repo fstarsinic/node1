@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         render: function(data, type, row, meta) {
           // Assuming your data contains URLs in the "Link" column
           var url = data;
-          var team_id =   row[3]
+          var team_id =   row[0]
           // Customize the rendering by returning the HTML for the hyperlink
           return '<a href="/pages/team?team=' + team_id + '">' + url + '</a>';
         },

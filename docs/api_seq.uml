@@ -2,19 +2,27 @@
 title Design for API calls
 actor       User       as User
 participant Server as Webserver
-participant Endpoint as Endpoint
-participant Controller as Controller
-participant Business as Bus
+participant Router as Router
+participant Controller as Cnt
+participant Service as Svc
 participant DBLayer as Model
 database    Database    as DB
 
 User -> Webserver : Web Request
 Webserver -> Webserver: Lookup Endpoint/Route
-Webserver -> Endpoint: Execute 
-Endpoint -> Bus: Send Request
-Bus -> Model: Request Data A
-Bus -> Model: Request Data B
-Bus -> Model: Request Data C
+Webserver -> Router: Execute
+Router -> Controller: Execute 
+Cnt -> Svc: Send Request
+
+Svc -> Model: Request Data A
+note right 
+One call to the Service layer 
+often results in just 1 
+call to the database layer
+but could be many.
+end note
+Svc -> Model: Request Data B
+Svc -> Model: Request Data C
 
 Model -> DB: Get Resultset from Database A
 Model -> DB: Get Resultset from Database B 
@@ -24,12 +32,13 @@ DB -> Model: Return Rows A
 DB -> Model: Return Rows B
 DB -> Model: Return Rows C
 
-Model -> Bus: Return Rows A
-Model -> Bus: Return Rows B
-Model -> Bus: Return Rows C
+Model -> Svc: Return Rows A
+Model -> Svc: Return Rows B
+Model -> Svc: Return Rows C
 
-Bus -> Bus: Execute Business Logic
-Bus -> Endpoint: Results
-Endpoint -> Webserver: JSON
+Svc -> Svc: Execute Business Logic
+Svc -> Cnt: JSON
+Cnt -> Router: JSON
+Router -> Webserver: JSON
 Webserver -> User: JSON
 @enduml

@@ -1,7 +1,8 @@
 <%- include('partials/header') %>
+<%- include('partials/highcharts') %>
 <link href="/css/packed_bubble.css" rel="stylesheet" type=="text/css">
 <%- include('partials/sidebar') %>
-        
+
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -215,14 +216,12 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <h1>Contents of the Directory:</h1>
-                        <ul>
-                            <% files.forEach(file => { %>
-                            <li><%= file %></li>
-                            <% }); %>
-                        </ul>
                 
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>
+                    </figure>
+                    <script src="/js/template.js"></script>
+
                 </div>
                 <!-- /.container-fluid -->
 

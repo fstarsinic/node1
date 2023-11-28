@@ -1,7 +1,10 @@
 <%- include('partials/header') %>
+<link href="/css/packed_bubble.css" rel="stylesheet" type=="text/css">
 <%- include('partials/datatables') %>
+<%- include('partials/highcharts') %>
 <%- include('partials/sidebar') %>
         
+
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -220,45 +223,14 @@
                     <h1 class="h3 mb-4 text-gray-800">Backyard Classics</h1>
                     <table id="no_data_container" class="display" style="width:100%"></table>
                     
-                    <table id="data_container" class="display" cellspacing="0" width="100%">
-                        <thead>
-                           <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Team</th>
-                            <th>TeamId</th>
-                            <th>Points</th>
-                            <th>Rebounds</th>
-                            <th>Assists</th>
-                            <th>Steals</th>
-                            <th>Blocks</th>
-                            <th>Turnovers</th>
-                            <th>FieldGoalPct</th>
-                            <th>ThreePointPercent</th>
-                            <th>FTPercent</th>
-                           </tr>
-                        </thead>
-                        <tfoot>
-                           <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Team</th>
-                            <th>TeamId</th>
-                            <th>Points</th>
-                            <th>Rebounds</th>
-                            <th>Assists</th>
-                            <th>Steals</th>
-                            <th>Blocks</th>
-                            <th>Turnovers</th>
-                            <th>FieldGoalPct</th>
-                            <th>ThreePointPercent</th>
-                            <th>FTPercent</th>
-                          </tr>
-                        </tfoot>
-                     </table>
+                    <table id="data_container" class="display" cellspacing="0" width="100%"></table>
+                    <!--script src="/js/test_datatable.js"></script-->
+                    <script src="/js/players.js"></script>
 
-                    <script src="/js/test_datatable.js"></script>
-                
+                    <figure class="highcharts-figure">
+                        <div id="pb_container"></div>
+                    </figure>
+                    <script src="/js/pb_players.js"></script>
                 </div>
                 <!-- /.container-fluid -->
 
