@@ -6,8 +6,7 @@ const multer = require('multer');
 const csvParser = require('csv-parser');
 const upload = multer({ storage: multer.memoryStorage() });
 
-
-function handleFileUpload(req, res) {
+async function handleFileUpload(req, res) {
   console.log('handleFileUpload called')
   console.log(req.csvFile)
   if (!req.files || !req.files.csvFile) {
@@ -38,22 +37,5 @@ function handleFileUpload(req, res) {
   fs.writeFile(filePath, fileBuffer, (err) => {
     return res.status(200).send({message: 'Successful upload.'});
   });
-
-/*  // Save the file to disk
-  fs.writeFile(filePath, fileBuffer, (err) => {
-    if (err) {
-        console.error(err);
-        res.redirect('/pages/fileUploadResult?msg=fail');
-    } else {
-        res.redirect('/pages/fileUploadResult?msg=success');
-    }
-    return res.status(200).send('File uploaded successfully');
-
-  });
-*/
-
 }
-
-module.exports = {
-  handleFileUpload,
-};
+module.exports.handleFileUpload = handleFileUpload;

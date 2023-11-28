@@ -14,8 +14,45 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch(`/api/team/gameData/${num}`)
         .then((response) => response.json())
         .then((data) => {    
-            const series = data.series
-            const team_name = data.team_name
+            console.log('team packed bubble data')
+            console.log(data)
+
+
+            //this is where we transform the data for the highcharts packed bubble viz
+            const dataSeries = [];
+            var playerObj = {};
+            var dataArr = [];
+            var playerName = '';
+            var gameObj = {};
+            var team_name = ''
+            data.data.forEach(row => {
+                // Process each row here
+                if (row.Player != playerName) {
+                    if (playerName != '') {
+                        playerObj.data = dataArr
+                        dataSeries.push(playerObj);
+                    } else {
+                    }
+                    playerObj = {};
+                    dataArr = [];
+                }
+                gameObj = {'name': row.Opponent, 'value': row.Points}
+                dataArr.push(gameObj);
+                playerName = row.Player;
+                playerObj.name = playerName;
+                team_name = row.Team;
+                }
+                );
+            playerObj.data = dataArr
+            dataSeries.push(playerObj)
+            res = {'series': dataSeries, 'team_name': team_name}
+            console.log(res)
+
+
+
+
+            const series = res.series
+            const disp_team_name = res.team_name
             console.log(`team name is ${team_name}`)
             $('#teamname').text(team_name);
             // Create the Highcharts hbar chart
@@ -25,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     height: '100%'
                 },
                 title: {
-                    text: `Team Data for ${team_name}`,
+                    text: `Team Data for ${disp_team_name}`,
                     align: 'left'
                 },
                 tooltip: {

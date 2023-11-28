@@ -1,154 +1,185 @@
 // playerController.js
-const bus = require('../modules/bus/busPlayer')
+const playerSvc = require('../svc/playerService')
+//const bodyParser = require('body-parser');
 
-/**
- * @swagger
- * /api/player:
- *   get:
- *     summary: Get a list of players
- *     description: Retrieve a list of players from the database.
- *     responses:
- *       200:
- *         description: A list of players.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Player'
- */
-exports.getAllPlayers = (req, res) => {
+async function getPlayerByName(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
-  console.log('/api/player endpoint')
-      bus.get_players((err, rows) => {
-        if (rows.length == 0) {
-          res.status(404).json({ error: `Results Not Found.`});
-          return;
-        }    
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.json(rows);
-      });      
-};
+  const { firstname, lastname } = req.query;
+  console.log(`/api/player/getPlayerByName:${firstname}/:${lastname} endpoint`)
+  try {
+    const rows = await playerSvc.getPlayerByName(firstname, lastname);
+    console.log('controller.rows')
+    console.log(rows)
+    if (!rows) {
+      res.status(404).json({ error: `Results Not Found for ${firstname} ${lastname}`});
+      return;
+    }
+    console.log('controller')
+    console.log(rows)
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch player: ${error.message}` });
+  }
+}
+module.exports.getPlayerByName = getPlayerByName;
 
-/**
- * @swagger
- * /api/player/{playerId}:
- *   get:
- *     summary: Get a player by player ID
- *     description: Retrieve a player's information by their player ID.
- *     parameters:
- *       - in: path
- *         name: playerId
- *         description: The ID of the player to retrieve.
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       '200':
- *         description: Successfully retrieved player information.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                   description: The ID of the player.
- *                 name:
- *                   type: string
- *                   description: The name of the player.
- *       '404':
- *         description: Player not found.
- */
-exports.getPlayerById = (req, res) => {
+async function addPlayer(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
-  const playerid = req.params.id;
-  console.log(`/api/player/:${playerid} endpoint`)
-  
-    console.log(`num ${playerid}`)
-      bus.get_player_by_id(playerid, (err, rows) => {
-        if (rows.length == 0) {
-          res.status(404).json({ error: `Results Not Found for ${playerid}`});
-          return;
-        }
-        if (err) {
-          res.status(500).json({ error: err.message });
-        return;
-        }
-        res.json(rows);
-  });      
-};
+  console.log('playerController.addPlayer')
+  console.log('body')
+  console.log(req.body)
+  const { firstName, lastName, active, injured, playerNumber} = req.body;
+  console.log(`/api/player/addPlayer:${firstName}/:${lastName}/:${playerNumber} endpoint`)
+  try {
+    const rows = await playerSvc.addPlayer(firstName, lastName, active, injured, playerNumber);
+    console.log('controller.rows')
+    console.log(rows)
+    if (!rows) {
+      res.status(404).json({ error: `Results Not Found for ${firstname} ${lastname}`});
+      return;
+    }
+    console.log('controller')
+    console.log(rows)
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to add player: ${error.message}` });
+  }
+}
+module.exports.addPlayer = addPlayer;
 
-exports.getPlayersByTeamId = (req, res) => {
+async function getPointsByTeam(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
-  const teamid = req.params.id;
-  console.log(`/api/player/:${teamid} endpoint`)
-  
-    console.log(`num ${teamid}`)
-      bus.get_players_by_team_id(teamid, (err, rows) => {
-        if (rows.length == 0) {
-          res.status(404).json({ error: `Results Not Found for ${teamid}`});
-          return;
-        }
-        if (err) {
-          res.status(500).json({ error: err.message });
-        return;
-        }
-        res.json(rows);
-  });      
+  const teamId = req.params.id;
+  console.log(`/api/player/points/:${teamId} endpoint`)
+  try {
+    const rows = await playerSvc.getPointsByTeam(teamId);
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found for ${teamId}`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch points: ${error.message}` });
+  }
 }
 
-exports.getPlayersByTeamName = (req, res) => {
+async function getAllPlayers(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/player endpoint');
+  try {
+    rows = await playerSvc.getPlayers();
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found.`});
+        return;
+      }    
+      res.json(rows);      
+    } catch (error) {
+      res.status(500).json({ error: `Failed to fetch players: ${error.message}` });
+    }
+  };
+module.exports.getAllPlayers = getAllPlayers;
+
+
+async function getPlayerById(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const playerid = req.params.id;
+  console.log(`/api/player/:${playerid} endpoint`) 
+  try {
+    const player = await playerSvc.getPlayerById(playerid);
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found for ${playerid}`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch player: ${error.message}` });
+  }
+};
+module.exports.getPlayerById = getPlayerById;
+
+
+async function getPlayersByTeamId(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/player/:${teamId} endpoint`)
+  try {
+    const rows = await playerSvc.getPlayersByTeamId(teamId);
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found for ${teamId}`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch players: ${error.message}` });
+  }
+};
+module.exports.getPlayersByTeamId = getPlayersByTeamId;
+
+
+async function getPlayersByTeamName(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const teamName = req.params.teamName;
   console.log(`/api/player/:${teamName} endpoint`)
-  
-    console.log(`num ${teamName}`)
-      bus.get_players_by_team_name(teamName, (err, rows) => {
-        if (rows.length == 0) {
-          res.status(404).json({ error: `Results Not Found for ${teamName}`});
-          return;
-        }
-        if (err) {
-          res.status(500).json({ error: err.message });
-        return;
-        }
-        res.json(rows);
-  });      
-}
+  try {
+    const rows = await playerSvc.getPlayersByTeamName(teamName);
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found for ${teamName}`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch players: ${error.message}` });
+  }
+};
+module.exports.getPlayersByTeamName = getPlayersByTeamName;
 
-exports.getPlayerStats = (req, res) => {
+async function getPlayerStatsArray(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/player endpoint')
-      bus.get_player_stats((err, rows) => {
-        if (rows.length == 0) {
-          res.status(404).json({ error: `Results Not Found.`});
-          return;
-        }    
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.json(rows);
-      });      
+  try {
+    const rows = await getPlayerStats();
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found.`});
+      return;
+    }    
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch stats: ${error.message}` });
+  }
 }
 
-exports.getPlayerDataById = (req, res) => {
+async function getPlayerStats(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/player endpoint')
+  try {
+    const rows = await playerSvc.getPlayerStats();
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found.`});
+      return;
+    }    
+    //res.json(rows);
+    res.status(200).json({ data: rows });
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch stats: ${error.message}` });
+  }
+}
+module.exports.getPlayerStats = getPlayerStats;
+
+
+async function getPlayerDataById(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const playerid = req.params.id;
   console.log(`/api/stats/getPlayerDataById/:${playerid} endpoint`)
-      bus.get_player_data(playerid, (err, rows) => {
-        if (rows.length == 0) {
-          res.status(404).json({ error: `Results Not Found.`});
-          return;
-        }    
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.json(rows);
-      });      
-}
+  try {
+    const rows = await playerSvc.getPlayerData(playerid);
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found.`});
+      return;
+    }    
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch player: ${error.message}` });
+  }
+};
+module.exports.getPlayerDataById = getPlayerDataById;
+

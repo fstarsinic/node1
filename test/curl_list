@@ -1,0 +1,12 @@
+http://localhost/api/game
+http://localhost/api/game/4
+http://localhost/api/game/results/3
+http://localhost/api/game/winner/5
+http://localhost/api/player/stats/playerStats
+http://localhost/api/game/agg/standings
+http://localhost/api/team/scorecard/5
+http://localhost/api/team/gameData/4
+http://localhost/api/game/agg/points
+http://localhost/api/game/agg/gamedata
+http://localhost/api/game/agg/pointsByTeam
+
