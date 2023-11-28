@@ -41,11 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 playerName = row.Player;
                 playerObj.name = playerName;
                 team_name = row.Team;
+                team_logo = '/images/UIComponents/' + row.logo;
                 }
                 );
             playerObj.data = dataArr
             dataSeries.push(playerObj)
-            res = {'series': dataSeries, 'team_name': team_name}
+            res = {'series': dataSeries, 'team_name': team_name, "team_logo": data.team_logo}
             console.log(res)
 
 

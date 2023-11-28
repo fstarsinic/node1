@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const queryParams = new URLSearchParams(window.location.search);
-    const firstname = (queryParams.get('firstname'));
-    const lastname = (queryParams.get('lastname'));
-    const url = '/api/player/search/findByPlayerName?firstname=' + firstname + '&lastname=' + lastname
+    const team = (queryParams.get('team'));
+    const url = '/api/team/' + team
     console.log(url)
 
         // Fetch data from server
@@ -13,19 +12,17 @@ document.addEventListener('DOMContentLoaded', function() {
           console.log(data)
           if (data.error) {
             // Display error message to the user
-            const divElement = document.getElementById("container");
-            divElement.innerHTML = "<b>" + data.error + "</b>";
+            console.log('error getting team info')
             return;
           }
           // Extract player names and points from data
-          const playerName = data.player;
-          const teamName = data.team;
-
+          const logo = data[0].logo;
+          console.log(logo)
           // Get a reference to the div element by its id
-          const divElement = document.getElementById("container");
+          const divElement = document.getElementById("teamlogo");
 
           // Set the content of the div element
-          divElement.innerHTML = "<b>" + playerName + "</b> is on the <b>" + teamName + "</b> team.";
+          divElement.innerHTML = "<img height=100 width=100 src=/images/UIcomponents/" + logo + ">";
         });
     });
 
