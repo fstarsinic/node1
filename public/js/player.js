@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
         .then((data) => {
           console.log('DATA')
           console.log(data)
+          if (data.error) {
+            // Display error message to the user
+            const divElement = document.getElementById("container");
+            divElement.innerHTML = "<b>" + data.error + "</b>";
+            return;
+          }
           // Extract player names and points from data
           const playerName = data.player;
           const teamName = data.team;

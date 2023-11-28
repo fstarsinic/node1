@@ -9,6 +9,7 @@ async function getPlayerByName(firstname, lastname) {
         console.log(player)
         playername = player[0].name;
         playerteam = player[0].team_id;
+        playerid = player[0].id //TODO use to get total points or whatevs.
 
         const team = await dbTeam.get_team_by_id(playerteam);
         console.log(`getting team`)
