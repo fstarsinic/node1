@@ -95,7 +95,7 @@ module.exports.getGameById = getGameById;
 async function getGamesByTeamName(teamName) {
     try {
         console.log(`svc.getGamesByTeamName(${teamName})`)
-        const team = await dbGame.get_games_by_team_name(teamName); // Assuming a database function to fetch a game
+        const team = await dbGame.get_game_by_team_name(teamName); // Assuming a database function to fetch a game
         return team;
     } catch (error) {
         throw new Error('Failed to fetch team');

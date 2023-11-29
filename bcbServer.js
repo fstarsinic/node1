@@ -39,6 +39,11 @@ app.use((req, res, next) => {
     // Set the 'Content-Type' header to 'text/javascript'
     res.setHeader('Content-Type', 'text/javascript');
   }
+  if (req.url.endsWith('.css')) {
+    console.log(`Setting content type for ${req.url} to text/css`);
+    // Set the 'Content-Type' header to 'text/javascript'
+    res.setHeader('Content-Type', 'text/css');
+  }
   // Continue to the next middleware or route handler
   next();
 });

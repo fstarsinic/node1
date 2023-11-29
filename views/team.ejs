@@ -2,7 +2,7 @@
 <%- include('partials/highcharts') %>
 <%- include('partials/datatables') %>
 <%- include('partials/sidebar') %>
-        
+    
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -217,18 +217,26 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1 class="h3 mb-4 text-gray-800"><div id="teamname"></div></h1>
+                            <span hidden="true" id="currentTeamPlaceholder"></span>
+                        </div>
+                        <div class="col-md-6 text-right">
+                          <div id="teamlogo"></div>
+                        </div>
+                      </div>
+
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Backyard Classics - <div id="teamname"></div></h1>
-                    <span hidden="true" id="currentTeamPlaceholder"></span>
-                    <div id="teamlogo"></div>
+                    
                     <script src="/js/teamlogo.js"></script>
                     
                     <!-- Links to increment and decrement the "team" query string parameter -->
-                    |||
-                    <a href="javascript:void(0);" onclick="updateQueryStringValue(-1)">Previous Team</a>
+                    
+                    <a href="javascript:void(0);" onclick="updateQueryStringValue(-1)"><i class="fas fa-arrow-left fa-lg"></i> Previous </a>
                     <nbsp></nbsp>|<nbsp></nbsp> 
-                    <a href="javascript:void(0);" onclick="updateQueryStringValue(1)">Next Team</a>
-                    |||
+                    <a href="javascript:void(0);" onclick="updateQueryStringValue(1)"> Next <i class="fas fa-arrow-right fa-lg"></i></a>
+                    
                     <!-- JavaScript code to get the current "team" value from the query string -->
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {
@@ -248,7 +256,23 @@
                     <table id="scorecard_container" class="display" width="100%"></table>
                     <script src="/js/scorecard.js"></script>
 
- 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <figure class="highcharts-figure">
+                                    <div id="sb_container"></div>
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                                <figure class="highcharts-figure">
+                                    <div id="sb_container2"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    <script src="/js/team_stackedBar.js"></script>
+
+                    
+
+                    <p></p>
                     
                     <figure class="highcharts-figure">
                         <div id="container"></div>

@@ -170,6 +170,22 @@ async function getGamesByTeamId(req, res) {
 };
 module.exports.getGamesByTeamId = getGamesByTeamId;
 
+async function getGamesByTeamId(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/game/FindByTeamId/:${teamId} endpoint`)
+  try{
+    rows = await gameSvc.getGamesByTeamId(teamId);
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found for ${teamId}`});
+        return;
+      }
+      res.json(rows);
+  }
+  catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
+}
 
 async function getGamesByTeamName(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type

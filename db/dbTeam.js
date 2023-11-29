@@ -74,7 +74,7 @@ async function get_team_by_name(teamName) {
 module.exports.get_team_by_name = get_team_by_name;
 
 
-function get_team_by_id(teamid) {
+async function get_team_by_id(teamid) {
   console.log(`db.get_team_by_id(${teamid})})`)
 
   return new Promise((resolve, reject) => {
@@ -98,10 +98,34 @@ function get_team_by_id(teamid) {
 module.exports.get_team_by_id = get_team_by_id;
 
 
+async function get_team_game_results(teamid) {
+  console.log('db.get_team_game_results()')
+  return new Promise((resolve, reject) => {
+    if (isNaN(parseInt(teamid))) {
+      reject(new Error('Invalid teamId'));
+    }
+    const query = `
+    select points, ORebounds , DRebounds , 
+    (ORebounds + DRebounds) as Rebounds, Player, Game 
+    from game_data where 
+    team_id = ?
+    order by Game, Player;`;
+    console.log(query)
+    db.all(query, [teamid], (err, rows) => {
+      if (err) {
+        reject(err); // Reject the Promise with an error
+      } else {
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+  );
+};
+module.exports.get_team_game_results = get_team_game_results;
 
  // Function to fetch data from the database based on the query parameter
 
-function get_team_game_data(teamid) {
+async function get_team_game_data(teamid) {
   console.log('db.get_team_game_data()')
   return new Promise((resolve, reject) => {
     if (isNaN(parseInt(teamid))) {
