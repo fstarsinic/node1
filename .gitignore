@@ -13,4 +13,4 @@ uploads/*
 nodejs-server-server-generated.zip
 .DS_Store
 *.pem
-
+**/.DS_Store

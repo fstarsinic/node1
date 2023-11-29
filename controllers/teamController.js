@@ -90,6 +90,18 @@ async function getTeamScorecard(req, res) {
 };
 module.exports.getTeamScorecard = getTeamScorecard;
 
+async function getTeamGameResults(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/team/gameResults/:${teamId} endpoint`)
+  rows = await teamSvc.getTeamGameResults(teamId);
+  if (!rows?.length) {
+    res.status(404).json({ error: `Results Not Found for ${teamId}`});
+    return;
+  }
+    res.status(200).json({ data: rows });    
+}
+module.exports.getTeamGameResults = getTeamGameResults;
 
 async function getTeamGameData(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type

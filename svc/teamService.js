@@ -72,6 +72,19 @@ async function getTeamGameData(teamId) {
 }
 module.exports.getTeamGameData = getTeamGameData;
 
+async function getTeamGameResults(teamId) {
+    try {
+        console.log(`svc.getTeamGameResults(${teamId})`)
+        const team = await dbTeam.get_team_game_results(teamId); // Assuming a database function to fetch a game
+        console.log(team)
+        return team;
+    } catch (error) {
+        throw new Error('Failed to fetch team');
+    }
+}
+module.exports.getTeamGameResults = getTeamGameResults;
+
+
 async function getTeamScorecard(teamId) {
     console.log(`bus.get_team_scorecard(${teamId})`);
     try {
