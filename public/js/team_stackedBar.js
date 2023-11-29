@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const queryParams = new URLSearchParams(window.location.search);
     const num = parseInt(queryParams.get('team'));
   
-    let dataseries = [];
+    let pointseries = [];
+    let reboundseries = []
     let games = [];
 
       // Fetch data from server
@@ -13,11 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('team game results data')
             console.log(data)
             let playerPoints = {};
+            let playerRebounds = {};
             let gameset = new Set();
             // Process each row in the query results
             data.data.forEach(row => {
                 let player = row.Player;
                 let points = row.Points;
+                let rebounds = row.Rebounds;
                 gameset.add(row.Game);
 
                 // Initialize an array for the player if it doesn't exist
@@ -25,11 +28,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     playerPoints[player] = [];
                 }
 
+                if (!playerRebounds[player]) {
+                    playerRebounds[player] = [];
+                }
+
                 // Append the points to the player's array
                 playerPoints[player].push(points);
+                playerRebounds[player].push(rebounds);
             });
             let ppjson = JSON.stringify(playerPoints);
             console.log(ppjson);
+            let prjson = JSON.stringify(playerRebounds);
+            console.log(prjson);
 
 /*
 Below we will transform data from this format..
@@ -49,19 +59,28 @@ to this..
 */
 
             // Convert the playerPoints object into the desired series array
-            dataseries = Object.keys(playerPoints).map(player => {
+            pointseries = Object.keys(playerPoints).map(player => {
                 return {
                     name: player,
                     data: playerPoints[player]
                 };
             });
+            console.log(pointseries);
+            reboundseries = Object.keys(playerRebounds).map(player => {
+                return {
+                    name: player,
+                    data: playerRebounds[player]
+                };
+            });
+            console.log(reboundseries);
 
-            console.log(dataseries);
+
+
             games = Array.from(gameset);
             console.log(games);
 
             // Convert the object to a JSON string
-            let jsonString = JSON.stringify(dataseries);
+            let jsonString = JSON.stringify(pointseries);
 
             // Print the JSON string to the console for inspection
             console.log(jsonString);
@@ -94,10 +113,41 @@ to this..
                     }
                 }
             },
-            series: dataseries
+            series: pointseries
 
         });
+        // Data retrieved from: https://www.uefa.com/uefachampionsleague/history/
+        Highcharts.chart('sb_container2', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Rebounds by Game'
+            },
+            xAxis: {
+                categories: games
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Rebounds'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            series: reboundseries
+
         });
+    });
 });
 
     
