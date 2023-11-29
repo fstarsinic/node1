@@ -105,10 +105,10 @@ async function get_team_game_results(teamid) {
       reject(new Error('Invalid teamId'));
     }
     const query = `
-    select (gd.points), gd.ORebounds , gd.DRebounds , 
-    (gd.ORebounds + gd.DRebounds) as Rebounds, gd.Player, gd.Game 
-    from game_data gd where 
-    gd.team_id = ?
+    select points, ORebounds , DRebounds , 
+    (ORebounds + DRebounds) as Rebounds, Player, Game 
+    from game_data where 
+    team_id = ?
     order by Game, Player;`;
     console.log(query)
     db.all(query, [teamid], (err, rows) => {
