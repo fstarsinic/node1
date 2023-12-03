@@ -1,6 +1,28 @@
 // gameController.js
 const gameSvc = require('../svc/gameService')
 
+
+
+async function getAllPlayersPointsByGame(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/game/agg/points endpoint')
+  try{
+    rows = await gameSvc.getAllPlayersPointsByGame();
+    console.log(`gamecontroller.rows:`);
+    console.log(rows);
+    if (rows.length == 0) {
+      res.status(404).json({ error: `Results Not Found`});
+      return;
+    }
+    res.json(rows);
+    }
+    catch (error) {
+      res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+    }
+  }
+  module.exports.getAllPlayersPointsByGame = getAllPlayersPointsByGame;
+  
+  
 async function getPointsByGame(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/game/agg/points endpoint')
@@ -20,7 +42,8 @@ async function getPointsByGame(req, res) {
   }
   module.exports.getPointsByGame = getPointsByGame;
   
-
+    
+  
 async function getPointsByTeam (req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   try {
@@ -170,6 +193,22 @@ async function getGamesByTeamId(req, res) {
 };
 module.exports.getGamesByTeamId = getGamesByTeamId;
 
+async function getGamesByTeamId(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  const teamId = req.params.id;
+  console.log(`/api/game/FindByTeamId/:${teamId} endpoint`)
+  try{
+    rows = await gameSvc.getGamesByTeamId(teamId);
+      if (!rows?.length) {
+        res.status(404).json({ error: `Results Not Found for ${teamId}`});
+        return;
+      }
+      res.json(rows);
+  }
+  catch (error) {
+    res.status(500).json({ error: `Failed to fetch games: ${error.message}` });
+  }
+}
 
 async function getGamesByTeamName(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type

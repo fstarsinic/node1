@@ -8,10 +8,10 @@ participant Service as Svc
 participant DBLayer as Model
 database    Database    as DB
 
-User -> Webserver : Web Request
+User -> Webserver : REST Call (HTTP Request)
 Webserver -> Webserver: Lookup Endpoint/Route
 Webserver -> Router: Execute
-Router -> Controller: Execute 
+Router -> Cnt: Execute 
 Cnt -> Svc: Send Request
 
 Svc -> Model: Request Data A
@@ -22,19 +22,15 @@ call to the database layer
 but could be many.
 end note
 Svc -> Model: Request Data B
-Svc -> Model: Request Data C
 
 Model -> DB: Get Resultset from Database A
 Model -> DB: Get Resultset from Database B 
-Model -> DB: Get Resultset from Database C
 
 DB -> Model: Return Rows A
 DB -> Model: Return Rows B
-DB -> Model: Return Rows C
 
 Model -> Svc: Return Rows A
 Model -> Svc: Return Rows B
-Model -> Svc: Return Rows C
 
 Svc -> Svc: Execute Business Logic
 Svc -> Cnt: JSON

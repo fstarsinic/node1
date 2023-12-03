@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const divElement = document.getElementById("teamlogo");
 
           // Set the content of the div element
-          divElement.innerHTML = "<img height=100 width=100 src=/images/UIcomponents/" + logo + ">";
+          divElement.innerHTML = '<img class="img-fluid" height=150 width=150 src=/images/UIcomponents/' + logo + ">";
         });
     });
 
