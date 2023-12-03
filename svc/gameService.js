@@ -4,6 +4,53 @@ const errs = require('../modules/errors/customErrors');
 
 const exportsObj = {};
 
+function transformData(data) {
+    // Implement your transformation logic here
+    // Example: Doubling the values of all numbers
+    const gameData = {}
+    gamesObj = {}
+    current_player = '';
+    if (Array.isArray(data)) {
+      console.log('data is array')
+      data.forEach((row) => {
+        const { game_id, player, points} = row;
+        if (current_player != player) {
+          if (current_player != '') {
+            gameData[current_player] = gamesObj;
+          }
+          current_player = player;
+          gamesObj = {};
+        }
+        current_player = player;
+        console.log(`game_id: ${game_id}, player: ${player}, points: ${points}`)
+        //console.log(row);
+        //gamesObj['game ' + game_id] = points;      
+        gamesObj[game_id] = points;      
+        //console.log(gamesObj)
+      });
+    };   
+    return gameData;
+  };
+
+  
+async function getAllPlayersPointsByGame() {
+    try {
+        console.log('svc.async function getAllPlayersPointsByGame()')
+        const points = await dbGame.get_all_players_points_by_game(); // Assuming a database function to fetch games
+        console.log(`svc.points`)
+        console.log(points)
+        //const jpoints = JSON.stringify(points);
+        const trans_points = transformData(points);
+        console.log('trans_points')
+        console.log(trans_points)
+        return trans_points;
+    } catch (error) {
+        throw new Error(`Failed to fetch points: ${error.message}`);
+    }
+}
+module.exports.getAllPlayersPointsByGame = getAllPlayersPointsByGame;
+
+
 async function getPointsByGame() {
     try {
         console.log('svc.getPointsByGame()')
