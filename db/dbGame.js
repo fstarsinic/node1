@@ -12,6 +12,48 @@ const dbPath = path.join(moduleDirectory, '../data/mydatabase.db');
 console.log(`dbPath: ${dbPath}`);
 const db = new sqlite3.Database(dbPath);
 
+
+async function get_all_players_points_by_game() {
+  console.log('db.get_all_players_points_by_game()')
+
+  return new Promise((resolve, reject) => {
+    const query = `SELECT
+    ag.game_id,
+    pl.player,
+    COALESCE(
+        SUM(gd.points) OVER (
+            PARTITION BY pl.player 
+            ORDER BY ag.game_id 
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ),
+        0
+    ) AS points
+FROM
+    (SELECT DISTINCT game_id FROM game_data) AS ag
+    CROSS JOIN (SELECT DISTINCT player FROM game_data) AS pl
+    LEFT JOIN game_data gd ON ag.game_id = gd.game_id AND pl.player = gd.player
+ORDER BY
+    pl.player, 
+    ag.game_id
+  `;
+    console.log(query)
+    db.all(query, (err, rows) => {
+      console.log(`db.rows`)  
+      console.log(rows)
+      if (err) {
+        console.log('rejecting')
+        reject(err); // Reject the Promise with an error
+      } else {
+        console.log('resolving')
+        resolve(rows); // Resolve the Promise with the result
+      }
+    });
+  }
+
+  );
+}
+module.exports.get_all_players_points_by_game = get_all_players_points_by_game;
+
 async function get_points_by_game() {
   console.log('db.get_points_by_game()')
 

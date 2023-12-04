@@ -8,11 +8,16 @@ console.log('Setting up Game Routes')
 const gameController = require('../controllers/gameController');
 
 // Define routes and their corresponding controller functions
+
+router.get('/agg/allPlayersPointsByGame', gameController.getAllPlayersPointsByGame);
+
 router.get('/', gameController.getAllGames);
 
 router.get('/:id', gameController.getGameById);
 
 router.get('/FindByName/:teamName', gameController.getGamesByTeamName);
+
+router.get('/FindByTeamId/:id', gameController.getGamesByTeamId);
 
 router.get('/winner/:id', gameController.getGameWinner);
 
