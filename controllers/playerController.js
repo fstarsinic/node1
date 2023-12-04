@@ -28,10 +28,10 @@ async function addPlayer(req, res) {
   console.log('playerController.addPlayer')
   console.log('body')
   console.log(req.body)
-  const { firstName, lastName, active, injured, playerNumber} = req.body;
-  console.log(`/api/player/addPlayer:${firstName}/:${lastName}/:${playerNumber} endpoint`)
+  const { firstname, lastname, active, injured, player_number} = req.body;
+  console.log(`/api/player/addPlayer:${firstname}/:${lastname}/:${player_number} endpoint`)
   try {
-    const rows = await playerSvc.addPlayer(firstName, lastName, active, injured, playerNumber);
+    const rows = await playerSvc.addPlayer(firstname, lastname, active, injured, player_number);
     console.log('controller.rows')
     console.log(rows)
     if (!rows) {

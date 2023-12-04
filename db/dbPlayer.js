@@ -31,21 +31,22 @@ module.exports.get_player_by_name = get_player_by_name;
 async function add_player(firstName, lastName, active, injured, playerNumber) {
   console.log(`'db.add_player(${firstName}, ${lastName}, ${active}, ${injured}, ${playerNumber})')'`)
   return new Promise((resolve, reject) => {
-    parmas = [firstName, lastName, active, injured, playerNumber]
-    console.log(parmas)
+    params = [firstName, lastName, active, injured, playerNumber]
+    console.log(params)
     const sql = `INSERT INTO player (firstname, lastname, active, injured, player_number) VALUES (?, ?, ?, ?, ?)`;  
     console.log(sql)
-    db.run(sql, function (err) {
+    db.run(sql, params, function (err) {
         if (err) {
+            console.log('detected an error in the db code')
             console.log(err);
             //db.close();
             reject(err);
         } else {
+            console.log('db code ran successfully')
             // Get the last inserted row's primary key
             const lastInsertedId = this.lastID;
             console.log(`A row has been inserted with rowid ${lastInsertedId}`);
             //db.close();
-
             // Resolve the Promise with the primary key
             resolve(lastInsertedId);
         }

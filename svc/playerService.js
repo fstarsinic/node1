@@ -30,11 +30,12 @@ async function addPlayer(firstName, lastName, active, injured, playerNumber) {
     try {
         console.log(`svc.addPlayer(${firstName}, ${lastName}, ${active}, ${injured}, ${playerNumber})`)
         const player = await dbPlayer.add_player(firstName, lastName, active, injured, playerNumber); // Assuming a database function to fetch a game
-        console.log(`svc.player`)
+        console.log(`svc.player player added`)
         console.log(player)
         return player;
     } catch (error) {
-        throw new Error('Failed to fetch player');
+        console.log(`Detected an error: ${error.message}`)
+        throw new Error('Failed to add player');
     }
 }
 module.exports.addPlayer = addPlayer;
