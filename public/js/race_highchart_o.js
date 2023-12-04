@@ -2,7 +2,7 @@ const startYear = 1,
     endYear = 20,
     btn = document.getElementById('play-pause-button'),
     input = document.getElementById('play-range'),
-    nbr = 400;
+    nbr = 40; //this is the max number of players to show
 
 let dataset, chart;
 
@@ -93,13 +93,22 @@ function getData(year) {
             return [countryName, Number(countryData[year])];
         })
         .sort((a, b) => b[1] - a[1]);
-    return [output[0], output.slice(1, nbr)];
+    return [output[0], output.slice(0, nbr)]; 
 }
 
 function getSubtitle() {
+    console.log('getSubtitle()')
+    console.log(getData(input.value));
+    console.log('getSubtitle()')
     console.log(input.value)
     const population = (getData(input.value)[0][1]);
-    return `<span style="font-size: 80px">Game ${input.value}</span>`;
+    console.log(population)
+    return `<span style="font-size: 80px">Game ${input.value}</span>
+    <br>
+    <span style="font-size: 22px">
+        Max Points: <b>: ${population}</b> points
+    </span>`;
+
 }
 
 (async () => {
@@ -139,7 +148,7 @@ function getSubtitle() {
         },
         yAxis: {
             opposite: true,
-            tickPixelInterval: 140,
+            tickPixelInterval: 150,
             title: {
                 text: null
             }

@@ -1,8 +1,8 @@
-const startYear = 1,
-    endYear = 20,
+const startYear = 1960,
+    endYear = 2018,
     btn = document.getElementById('play-pause-button'),
     input = document.getElementById('play-range'),
-    nbr = 40; //this is the max number of players to show
+    nbr = 20;
 
 let dataset, chart;
 
@@ -93,41 +93,34 @@ function getData(year) {
             return [countryName, Number(countryData[year])];
         })
         .sort((a, b) => b[1] - a[1]);
-    return [output[0], output.slice(0, nbr)]; 
+    return [output[0], output.slice(1, nbr)];
 }
 
 function getSubtitle() {
-    console.log('getSubtitle()')
-    console.log(getData(input.value));
-    console.log('getSubtitle()')
-    console.log(input.value)
-    const population = (getData(input.value)[0][1]);
-    console.log(population)
-    return `<span style="font-size: 80px">Game ${input.value}</span>
-    <br>
-    <span style="font-size: 22px">
-        Max Points: <b>: ${population}</b> points
-    </span>`;
-
+    const population = (getData(input.value)[0][1] / 1000000000).toFixed(2);
+    return `<span style="font-size: 80px">${input.value}</span>
+        <br>
+        <span style="font-size: 22px">
+            Total: <b>: ${population}</b> billion
+        </span>`;
 }
 
 (async () => {
 
     dataset = await fetch(
-        '/api/game/agg/allPlayersPointsByGame'
+        'https://demo-live-data.highcharts.com/population.json'
     ).then(response => response.json());
 
 
     chart = Highcharts.chart('container', {
         chart: {
-            height: 900,
             animation: {
                 duration: 500
             },
             marginRight: 50
         },
         title: {
-            text: 'Points by player by game',
+            text: 'World population by country',
             align: 'left'
         },
         subtitle: {
@@ -144,7 +137,7 @@ function getSubtitle() {
             enabled: false
         },
         xAxis: {
-            type: 'category',
+            type: 'category'
         },
         yAxis: {
             opposite: true,
@@ -180,7 +173,7 @@ function getSubtitle() {
         responsive: {
             rules: [{
                 condition: {
-                    maxWidth: 800
+                    maxWidth: 550
                 },
                 chartOptions: {
                     xAxis: {
@@ -228,7 +221,6 @@ function pause(button) {
  */
 function update(increment) {
     if (increment) {
-        console.log(`increment: ${increment}`);
         input.value = parseInt(input.value, 10) + increment;
     }
     if (input.value >= endYear) {
@@ -261,7 +253,7 @@ function play(button) {
     button.className = 'fa fa-pause';
     chart.sequenceTimer = setInterval(function () {
         update(1);
-    }, 1000);
+    }, 500);
 }
 
 btn.addEventListener('click', function () {
