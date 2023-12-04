@@ -2119,7 +2119,7 @@ input, select, textarea {
 				}
 
 				#nav > ul > li:hover > a, #nav > ul > li.active > a {
-					background: #f3f3f3;
+					background: lightskyblue;
 				}
 
 				#nav > ul > li.current > a {
