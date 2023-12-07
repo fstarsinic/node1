@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const num = parseInt(queryParams.get('team'));
   
     let pointseries = [];
-    let reboundseries = []
+    let reboundseries = [];
+    let turnoverseries = [];
     let games = [];
 
       // Fetch data from server
@@ -15,12 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(data)
             let playerPoints = {};
             let playerRebounds = {};
+            let playerTurnovers = {};
             let gameset = new Set();
             // Process each row in the query results
             data.data.forEach(row => {
                 let player = row.Player;
                 let points = row.Points;
                 let rebounds = row.Rebounds;
+                let turnovers = row.Turnovers;
                 gameset.add(row.Game);
 
                 // Initialize an array for the player if it doesn't exist
@@ -32,14 +35,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     playerRebounds[player] = [];
                 }
 
+                if (!playerTurnovers[player]) {
+                    playerTurnovers[player] = [];
+                }
+
                 // Append the points to the player's array
                 playerPoints[player].push(points);
                 playerRebounds[player].push(rebounds);
+                playerTurnovers[player].push(turnovers);
             });
             let ppjson = JSON.stringify(playerPoints);
             console.log(ppjson);
             let prjson = JSON.stringify(playerRebounds);
             console.log(prjson);
+            let ptjson = JSON.stringify(playerTurnovers);
+            console.log(ptjson);
 
 /*
 Below we will transform data from this format..
@@ -73,6 +83,14 @@ to this..
                 };
             });
             console.log(reboundseries);
+
+            turnoverseries = Object.keys(playerTurnovers).map(player => {
+                return {
+                    name: player,
+                    data: playerTurnovers[player]
+                };
+            });
+            console.log(turnoverseries);
 
 
 
@@ -147,7 +165,36 @@ to this..
             series: reboundseries
 
         });
+
+        Highcharts.chart('sb_container3', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Turnovers per game'
+            },
+            xAxis: {
+                categories: games
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Turnovers'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            series: turnoverseries
+
+        });
     });
 });
-
-    

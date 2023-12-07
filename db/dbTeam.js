@@ -105,7 +105,7 @@ async function get_team_game_results(teamid) {
       reject(new Error('Invalid teamId'));
     }
     const query = `
-    select points, ORebounds , DRebounds , 
+    select points, turnovers, ORebounds , DRebounds , 
     (ORebounds + DRebounds) as Rebounds, Player, Game 
     from game_data where 
     team_id = ?
