@@ -2,6 +2,22 @@
 const playerSvc = require('../svc/playerService')
 //const bodyParser = require('body-parser');
 
+async function getPie(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/player/getPie endpoint')
+  try {
+    const rows = await playerSvc.getPie();
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found.`});
+      return;
+    }    
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch stats: ${error.message}` });
+  }
+}
+module.exports.getPie = getPie;
+
 async function getPlayerByName(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   const { firstname, lastname } = req.query;

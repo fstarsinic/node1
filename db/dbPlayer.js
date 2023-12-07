@@ -9,6 +9,24 @@ const dbPath = path.join(moduleDirectory, '../data/mydatabase.db');
 console.log(`dbPath: ${dbPath}`);
 const db = new sqlite3.Database(dbPath);
 
+
+async function get_pie()
+{
+  console.log('db.get_pie()')
+  const query = `select player, (sum(points)*100 / (select sum(points) from game_data where team = 'Klassics')) from game_data gd where team = 'Klassics' group by player order by sum(points) desc`;
+  console.log(query)
+  return new Promise((resolve, reject) => {
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  }
+  );
+}
+
 async function get_player_by_name(firstname, lastname) {
   console.log('db.get_player_by_name()')
 

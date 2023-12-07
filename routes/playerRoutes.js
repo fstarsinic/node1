@@ -4,6 +4,8 @@ const playerController = require('../controllers/playerController');
 
 console.log('Setting up Player Routes')
 
+router.get('/pie', playerController.getPie);
+
 router.get('/FindByName/:teamName', playerController.getPlayersByTeamName);
 
 router.get('/byTeamId/:id', playerController.getPlayersByTeamId);
