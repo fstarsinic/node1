@@ -13,3 +13,4 @@ uploads/*
 nodejs-server-server-generated.zip
 *.pem
 **/.DS_Store
+docs/~*.docx

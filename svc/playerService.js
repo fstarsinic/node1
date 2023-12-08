@@ -8,6 +8,7 @@ async function getPie() {
         const points = await dbPlayer.get_pie(); // Assuming a database function to fetch games
         console.log(`svc.points`)
         console.log(points)
+
         return points;
     } catch (error) {
         throw new Error(`Failed to fetch points: ${error.message}`);
