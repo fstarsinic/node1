@@ -9,6 +9,60 @@ const dbPath = path.join(moduleDirectory, '../data/mydatabase.db');
 console.log(`dbPath: ${dbPath}`);
 const db = new sqlite3.Database(dbPath);
 
+async function get_top_assists()
+{
+  console.log('db.get_top_assists()')
+  const query = `select player, team, sum(assists) as total from game_data group by player order by total desc limit 1`;
+  console.log(query)
+  return new Promise((resolve, reject) => {
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  }
+  );
+}
+module.exports.get_top_assists = get_top_assists;
+
+async function get_top_rebounds()
+{
+  console.log('db.get_top_rebounds()')
+  const query = `select player, team, sum(orebounds + drebounds) as points from game_data group by player order by points desc limit 1`;
+  console.log(query)
+  return new Promise((resolve, reject) => {
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  }
+  );
+}
+module.exports.get_top_rebounds = get_top_rebounds;
+
+
+async function get_top_points()
+{
+  console.log('db.get_top_points()')
+  const query = `select player, team, sum(points) as points from game_data group by player order by sum(points) desc limit 1`;
+  console.log(query)
+  return new Promise((resolve, reject) => {
+    db.all(query, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  }
+  );
+}
+module.exports.get_top_points = get_top_points;
 
 async function get_pie()
 {

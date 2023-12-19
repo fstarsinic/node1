@@ -4,6 +4,12 @@ const playerController = require('../controllers/playerController');
 
 console.log('Setting up Player Routes')
 
+router.get('/topPoints', playerController.getTopPoints);
+router.get('/topRebounds', playerController.getTopRebounds);
+router.get('/topAssists', playerController.getTopAssists);
+//router.get('/topThrees', playerController.getTopThrees);
+//router.get('/topFG', playerController.getTopFG);
+
 router.get('/pie', playerController.getPie);
 
 router.get('/FindByName/:teamName', playerController.getPlayersByTeamName);

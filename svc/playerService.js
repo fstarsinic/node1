@@ -1,6 +1,45 @@
 const dbPlayer = require('../db/dbPlayer');
 const dbTeam = require('../db/dbTeam');
 
+async function getTopAssists() {
+    try {
+        console.log('svc.getTopAssists()')
+        const assists = await dbPlayer.get_top_assists(); // Assuming a database function to fetch games
+        console.log(`svc.assists`)
+        console.log(assists)
+        return assists;
+    } catch (error) {
+        throw new Error(`Failed to fetch assists: ${error.message}`);
+    }
+}
+module.exports.getTopAssists = getTopAssists;
+
+
+async function getTopRebounds() {
+    try {
+        console.log('svc.getTopRebounds()')
+        const points = await dbPlayer.get_top_rebounds(); // Assuming a database function to fetch games
+        console.log(`svc.rebounds`)
+        console.log(points)
+        return points;
+    } catch (error) {
+        throw new Error(`Failed to fetch points: ${error.message}`);
+    }
+}
+module.exports.getTopRebounds = getTopRebounds;
+
+async function getTopPoints() {
+    try {
+        console.log('svc.getTopPoints()')
+        const points = await dbPlayer.get_top_points(); // Assuming a database function to fetch games
+        console.log(`svc.points`)
+        console.log(points)
+        return points;
+    } catch (error) {
+        throw new Error(`Failed to fetch points: ${error.message}`);
+    }
+}
+module.exports.getTopPoints = getTopPoints;
 
 async function getPie() {
     try {

@@ -2,6 +2,57 @@
 const playerSvc = require('../svc/playerService')
 //const bodyParser = require('body-parser');
 
+async function getTopAssists(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/player/getTopAssists endpoint')
+  try {
+    const rows = await playerSvc.getTopAssists();
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found.`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch stats: ${error.message}` });
+  }
+}
+module.exports.getTopAssists = getTopAssists;
+
+
+
+async function getTopRebounds(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/player/getTopRebounds endpoint')
+  try {
+    const rows = await playerSvc.getTopRebounds();
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found.`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch stats: ${error.message}` });
+  }
+}
+module.exports.getTopRebounds = getTopRebounds;
+
+async function getTopPoints(req, res) {
+  res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
+  console.log('/api/player/getTopPoints endpoint')
+  try {
+    const rows = await playerSvc.getTopPoints();
+    if (!rows?.length) {
+      res.status(404).json({ error: `Results Not Found.`});
+      return;
+    }
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: `Failed to fetch stats: ${error.message}` });
+  }
+}
+module.exports.getTopPoints = getTopPoints;
+
+
 async function getPie(req, res) {
   res.setHeader('Content-Type', 'application/json'); // Set the Content-Type
   console.log('/api/player/getPie endpoint')
